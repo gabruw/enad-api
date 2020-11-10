@@ -29,4 +29,8 @@ public class Response<T> {
 	public void setErrors(List<String> errors) {
 		this.errors = errors;
 	}
+
+	public boolean hasErrors() {
+		return this.errors.size() > 0;
+	}
 }

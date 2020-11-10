@@ -24,6 +24,10 @@ public class Authentication implements Serializable {
 	@Column(name = "password", nullable = false)
 	private String password;
 
+	public Authentication() {
+
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -46,5 +50,10 @@ public class Authentication implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	@Override
+	public String toString() {
+		return "Authentication [id=" + id + ", email=" + email + ", password=" + password + "]";
 	}
 }

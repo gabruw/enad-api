@@ -1,18 +1,22 @@
 package com.uniacademia.enad.dto;
 
-import com.uniacademia.enad.entity.Authentication;
+import java.io.Serializable;
 
-public class Login {
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
+
+public class Login implements Serializable {
+	private static final long serialVersionUID = -861105215106807581L;
+
+	@Email(message = "O campo 'Email' é inválido.")
+	@Size(min = 6, max = 80, message = "O campo 'Email' deve conter entre 6 e 80 caracteres.")
 	private String email;
+
+	@Size(min = 6, max = 40, message = "O campo 'Senha' deve conter entre 6 e 40 caracteres.")
 	private String password;
 
 	public Login() {
 
-	}
-
-	public Login(Authentication authentication) {
-		this.email = authentication.getEmail();
-		this.password = authentication.getPassword();
 	}
 
 	public String getEmail() {

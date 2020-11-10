@@ -35,29 +35,51 @@ public class AuthenticationController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Response<Login>> cadastrar(@Valid @RequestBody Login login, BindingResult result)
+	public ResponseEntity<Response<Authentication>> login(@Valid @RequestBody Login login, BindingResult result)
 			throws NoSuchAlgorithmException {
-		log.info("Buscando Login: {}", login.toString());
-		Response<Login> response = new Response<Login>();
+		log.info("Buscando Autenticação: {}", login.toString());
+		Response<Authentication> response = new Response<Authentication>();
 
-		Optional<Authentication> authentication = this.authenticationService.findByEmail(login.getEmail());
-		if (!authentication.isPresent()) {
+		if (result.hasErrors()) {
+			log.error("Erro validando dados de login da Autenticação: {}", result.getAllErrors());
+			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+			return ResponseEntity.badRequest().body(response);
+		}
+
+		Optional<Authentication> returned = this.authenticationService.findByEmail(login.getEmail());
+		if (!returned.isPresent()) {
 			log.info("Autenticação não encontrada para o email: {}", login.getEmail());
-			response.getErrors().add("Autenticação não encontrada para o email " + login.getEmail());
+			response.getErrors().add(String.format("Email %s não encontrado.", login.getEmail()));
 
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		if (login.getEmail() != authentication.get().getPassword()) {
-			log.info("Password incorreto: {}", login.getEmail());
-			response.getErrors().add("Password incorreto");
+		if (login.getPassword() != returned.get().getPassword()) {
+			log.info("Autenticação com o password incorreto: {}", login.getEmail());
+			response.getErrors().add("Password incorreto.");
 
 			return ResponseEntity.status(403).body(response);
 		}
 
-		Login conveted = new Login(authentication.get());
-		response.setData(conveted);
+		response.setData(returned.get());
+		return ResponseEntity.ok(response);
+	}
 
+	@PostMapping
+	public ResponseEntity<Response<Authentication>> register(@Valid @RequestBody Authentication authentication,
+			BindingResult result) throws NoSuchAlgorithmException {
+		log.info("Cadastrando Autenticação: {}", authentication.toString());
+		Response<Authentication> response = new Response<Authentication>();
+
+		if (result.hasErrors()) {
+			log.error("Erro validando dados de cadastro da Autenticação: {}", result.getAllErrors());
+			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+			return ResponseEntity.badRequest().body(response);
+		}
+
+		this.authenticationService.persistir(authentication);
+
+		response.setData(authentication);
 		return ResponseEntity.ok(response);
 	}
 }
