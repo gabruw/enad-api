@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.uniacademia.enade.dto.Login;
+
 @Entity
 @Table(name = "authentication")
 public class Authentication implements Serializable {
@@ -50,6 +52,14 @@ public class Authentication implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public static Authentication convertLoginToAuthentication(Login login) {
+		Authentication authentication = new Authentication();
+		authentication.setEmail(login.getEmail());
+		authentication.setPassword(login.getPassword());
+
+		return authentication;
 	}
 
 	@Override

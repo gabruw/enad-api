@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.uniacademia.enade.dto.InsertUser;
+
 @Entity
 @Table(name = "user")
 public class User implements Serializable {
@@ -98,6 +100,16 @@ public class User implements Serializable {
 
 	public void setUserType(UserType userType) {
 		this.userType = userType;
+	}
+	
+	public static User convertInsertUserToUser(InsertUser insertUser) {
+		User user = new User();
+		user.setCpf(insertUser.getCpf());
+		user.setName(insertUser.getName());
+		user.setBirth(insertUser.getBirth());
+		user.setPicture(insertUser.getPicture());
+
+		return user;
 	}
 
 	@Override

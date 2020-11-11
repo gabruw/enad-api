@@ -10,6 +10,8 @@ import com.uniacademia.enade.entity.UserType;
 public interface UserTypeRepository extends JpaRepository<UserType, Long> {
 
 	@Transactional(readOnly = true)
-	Optional<UserType> findById(Long id);
+	void deleteById(Long id);
 
+	@Transactional(readOnly = true)
+	Optional<UserType> findById(Long id);
 }
