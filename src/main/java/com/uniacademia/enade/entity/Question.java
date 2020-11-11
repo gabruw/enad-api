@@ -38,7 +38,7 @@ public class Question implements Serializable {
 	@OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Answer> answers;
 
-	@ManyToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Test> tests;
 
 	public Question() {

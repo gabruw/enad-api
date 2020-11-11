@@ -25,7 +25,7 @@ public class UserType implements Serializable {
 	@Column(name = "name", nullable = false)
 	private String name;
 
-	@OneToMany(mappedBy = "user_type", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<User> user;
 
 	public UserType() {

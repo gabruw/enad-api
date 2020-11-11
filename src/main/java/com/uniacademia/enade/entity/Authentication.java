@@ -2,11 +2,14 @@ package com.uniacademia.enade.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.uniacademia.enade.dto.Login;
@@ -25,6 +28,9 @@ public class Authentication implements Serializable {
 
 	@Column(name = "password", nullable = false)
 	private String password;
+
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private User user;
 
 	public Authentication() {
 
@@ -53,7 +59,15 @@ public class Authentication implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	public static Authentication convertLoginToAuthentication(Login login) {
 		Authentication authentication = new Authentication();
 		authentication.setEmail(login.getEmail());
@@ -64,6 +78,6 @@ public class Authentication implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Authentication [id=" + id + ", email=" + email + ", password=" + password + "]";
+		return "Authentication [id=" + id + ", email=" + email + ", password=" + password + ", user=" + user + "]";
 	}
 }
