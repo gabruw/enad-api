@@ -5,9 +5,10 @@ import java.util.Optional;
 import com.uniacademia.enade.entity.UserType;
 
 public interface UserTypeService {
-	void deleteById(Long id);
-	
+
 	Optional<UserType> findById(Long id);
+
+	void deleteById(Long id);
 
 	UserType persistir(UserType userType);
 }

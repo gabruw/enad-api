@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,13 +53,32 @@ public class UserTypeController {
 		return ResponseEntity.ok(response);
 	}
 
+	@PatchMapping
+	public ResponseEntity<Response<UserType>> edit(@Valid @RequestBody UserType userType, BindingResult result)
+			throws NoSuchAlgorithmException {
+		log.info("Editar Tipo de Usuário: {}", userType.toString());
+		Response<UserType> response = new Response<UserType>();
+
+		if (result.hasErrors()) {
+			log.error("Erro validando dados para edição de Tipo de Usuário: {}", result.getAllErrors());
+			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+
+			return ResponseEntity.badRequest().body(response);
+		}
+
+		this.userTypeService.persistir(userType);
+		response.setData(userType);
+
+		return ResponseEntity.ok(response);
+	}
+
 	@DeleteMapping
 	public ResponseEntity<Response<Long>> remove(@Valid @RequestBody Long id, BindingResult result)
 			throws NoSuchAlgorithmException {
 		log.info("Removendo Tipo de Usuário: {}", id);
 		Response<Long> response = new Response<Long>();
 		this.userTypeService.deleteById(id);
-		
+
 		response.setData(id);
 		return ResponseEntity.ok(response);
 	}

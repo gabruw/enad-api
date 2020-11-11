@@ -20,15 +20,15 @@ public class UserTypeServiceImpl implements UserTypeService {
 	private UserTypeRepository userTypeRepository;
 
 	@Override
-	public void deleteById(Long id) {
-		log.info("Removendo Tipo de Usuário por Id {}", id);
-		userTypeRepository.deleteById(id);
-	}
-
-	@Override
 	public Optional<UserType> findById(Long id) {
 		log.info("Buscando um Tipo de Usuário por Id {}", id);
 		return userTypeRepository.findById(id);
+	}
+
+	@Override
+	public void deleteById(Long id) {
+		log.info("Removendo Tipo de Usuário por Id {}", id);
+		userTypeRepository.deleteById(id);
 	}
 
 	@Override
