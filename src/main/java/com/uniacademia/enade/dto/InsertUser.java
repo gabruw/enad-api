@@ -21,7 +21,7 @@ public class InsertUser implements Serializable {
 	private Date birth;
 
 	@NotEmpty(message = "O campo 'Tipo de Usuário' é obrigatório.")
-	private Long userTypeName;
+	private Long userTypeId;
 
 	private String picture;
 
@@ -53,12 +53,12 @@ public class InsertUser implements Serializable {
 		this.birth = birth;
 	}
 
-	public Long getUserTypeName() {
-		return userTypeName;
+	public Long getUserTypeId() {
+		return userTypeId;
 	}
 
-	public void setUserTypeName(Long userTypeName) {
-		this.userTypeName = userTypeName;
+	public void setUserTypeId(Long userTypeId) {
+		this.userTypeId = userTypeId;
 	}
 
 	public String getPicture() {
@@ -71,7 +71,7 @@ public class InsertUser implements Serializable {
 
 	@Override
 	public String toString() {
-		return "InsertUser [name=" + name + ", cpf=" + cpf + ", birth=" + birth + ", userTypeName=" + userTypeName
+		return "InsertUser [name=" + name + ", cpf=" + cpf + ", birth=" + birth + ", userTypeId=" + userTypeId
 				+ ", picture=" + picture + "]";
 	}
 }
