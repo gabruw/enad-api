@@ -13,8 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity
 @Table(name = "user_type")
+@Entity(name = "user_type")
 public class UserType implements Serializable {
 	private static final long serialVersionUID = 224965383439056754L;
 

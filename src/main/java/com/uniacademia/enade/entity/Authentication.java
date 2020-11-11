@@ -11,8 +11,8 @@ import javax.persistence.Table;
 
 import com.uniacademia.enade.dto.Login;
 
-@Entity
 @Table(name = "authentication")
+@Entity(name = "authentication")
 public class Authentication implements Serializable {
 	private static final long serialVersionUID = 3259716520308178951L;
 

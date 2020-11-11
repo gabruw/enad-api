@@ -14,8 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "user_type")
+@Table(name = "report")
+@Entity(name = "report")
 public class Report implements Serializable {
 	private static final long serialVersionUID = 224965383439056754L;
 
@@ -29,7 +29,7 @@ public class Report implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private User user;
 
-	@OneToMany(mappedBy = "user_type", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "report", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Test> tests;
 
 	public Report() {

@@ -19,8 +19,8 @@ import javax.persistence.Table;
 
 import com.uniacademia.enade.dto.InsertUser;
 
-@Entity
 @Table(name = "user")
+@Entity(name = "user")
 public class User implements Serializable {
 	private static final long serialVersionUID = 4753030548887476398L;
 

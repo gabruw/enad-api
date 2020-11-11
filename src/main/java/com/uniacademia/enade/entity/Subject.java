@@ -13,8 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity
 @Table(name = "subject")
+@Entity(name = "subject")
 public class Subject implements Serializable {
 	private static final long serialVersionUID = 224965383439056754L;
 
