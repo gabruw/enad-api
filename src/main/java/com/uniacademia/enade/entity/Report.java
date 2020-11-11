@@ -23,7 +23,7 @@ public class Report implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "value", nullable = false)
+	@Column(name = "value", nullable = true)
 	private Double value;
 
 	@ManyToOne(fetch = FetchType.EAGER)

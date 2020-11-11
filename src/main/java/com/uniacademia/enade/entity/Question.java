@@ -29,7 +29,7 @@ public class Question implements Serializable {
 	@Column(name = "level", nullable = false)
 	private String level;
 
-	@Column(name = "correct", nullable = false)
+	@Column(name = "correct", nullable = true)
 	private char correct;
 
 	@OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

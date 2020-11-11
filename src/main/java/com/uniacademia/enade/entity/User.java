@@ -37,7 +37,7 @@ public class User implements Serializable {
 	@Column(name = "birth", nullable = false)
 	private Date birth;
 
-	@Column(name = "picture", nullable = false)
+	@Column(name = "picture", nullable = true)
 	private String picture;
 
 	@ManyToOne(fetch = FetchType.EAGER)
