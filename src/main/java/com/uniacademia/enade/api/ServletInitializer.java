@@ -1,4 +1,4 @@
-package com.uniacademia.enad.api;
+package com.uniacademia.enade.api;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

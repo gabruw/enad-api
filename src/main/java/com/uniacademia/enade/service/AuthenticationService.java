@@ -1,8 +1,8 @@
-package com.uniacademia.enad.service;
+package com.uniacademia.enade.service;
 
 import java.util.Optional;
 
-import com.uniacademia.enad.entity.Authentication;
+import com.uniacademia.enade.entity.Authentication;
 
 public interface AuthenticationService {
 	Optional<Authentication> findByEmail(String email);

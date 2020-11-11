@@ -1,9 +1,9 @@
-package com.uniacademia.enad.repository;
+package com.uniacademia.enade.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.uniacademia.enad.entity.Authentication;
+import com.uniacademia.enade.entity.Authentication;
 
 public interface AuthenticationRepository extends JpaRepository<Authentication, Long> {
 	

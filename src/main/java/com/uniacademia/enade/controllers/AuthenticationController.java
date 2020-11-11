@@ -1,4 +1,4 @@
-package com.uniacademia.enad.controllers;
+package com.uniacademia.enade.controllers;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.uniacademia.enad.dto.Login;
-import com.uniacademia.enad.entity.Authentication;
-import com.uniacademia.enad.response.Response;
-import com.uniacademia.enad.service.AuthenticationService;
+import com.uniacademia.enade.dto.Login;
+import com.uniacademia.enade.entity.Authentication;
+import com.uniacademia.enade.response.Response;
+import com.uniacademia.enade.service.AuthenticationService;
 
 @RestController
 @RequestMapping("/authentication")

@@ -1,4 +1,4 @@
-package com.uniacademia.enad.service.impl;
+package com.uniacademia.enade.service.impl;
 
 import java.util.Optional;
 
@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.uniacademia.enad.entity.Authentication;
-import com.uniacademia.enad.repository.AuthenticationRepository;
-import com.uniacademia.enad.service.AuthenticationService;
+import com.uniacademia.enade.entity.Authentication;
+import com.uniacademia.enade.repository.AuthenticationRepository;
+import com.uniacademia.enade.service.AuthenticationService;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {

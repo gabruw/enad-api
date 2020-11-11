@@ -1,4 +1,4 @@
-package com.uniacademia.enad.dto;
+package com.uniacademia.enade.dto;
 
 import java.io.Serializable;
 import java.util.Date;

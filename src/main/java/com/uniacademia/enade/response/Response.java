@@ -1,4 +1,4 @@
-package com.uniacademia.enad.response;
+package com.uniacademia.enade.response;
 
 import java.util.ArrayList;
 import java.util.List;

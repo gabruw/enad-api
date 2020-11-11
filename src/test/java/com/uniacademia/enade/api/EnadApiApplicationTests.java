@@ -1,4 +1,4 @@
-package com.uniacademia.enad.api;
+package com.uniacademia.enade.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

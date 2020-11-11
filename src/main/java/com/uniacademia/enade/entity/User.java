@@ -1,4 +1,4 @@
-package com.uniacademia.enad.entity;
+package com.uniacademia.enade.entity;
 
 import java.io.Serializable;
 import java.util.Date;

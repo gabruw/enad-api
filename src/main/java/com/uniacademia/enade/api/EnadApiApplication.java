@@ -1,4 +1,4 @@
-package com.uniacademia.enad.api;
+package com.uniacademia.enade.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
