@@ -68,9 +68,7 @@ public class UserController {
 		Authentication authentication = Authentication.convertLoginToAuthentication(register.getAuthentication());
 		authentication = this.authenticationService.persistir(authentication);
 
-		User user = User.convertInsertUserToUser(register.getUser());
-		user.setUserType(userType.get());
-		user.setAuthentication(authentication);
+		User user = User.buildUser(register.getUser(), authentication, userType.get());
 		this.userService.persistir(user);
 
 		response.setData(register);

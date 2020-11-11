@@ -14,8 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "user_type")
-public class UserType implements Serializable {
+@Table(name = "subject")
+public class Subject implements Serializable {
 	private static final long serialVersionUID = 224965383439056754L;
 
 	@Id
@@ -25,10 +25,10 @@ public class UserType implements Serializable {
 	@Column(name = "name", nullable = false)
 	private String name;
 
-	@OneToMany(mappedBy = "user_type", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<User> user;
+	@OneToMany(mappedBy = "subject", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Test> tests;
 
-	public UserType() {
+	public Subject() {
 
 	}
 
@@ -48,16 +48,16 @@ public class UserType implements Serializable {
 		this.name = name;
 	}
 
-	public List<User> getUser() {
-		return user;
+	public List<Test> getTests() {
+		return tests;
 	}
 
-	public void setUser(List<User> user) {
-		this.user = user;
+	public void setTests(List<Test> tests) {
+		this.tests = tests;
 	}
 
 	@Override
 	public String toString() {
-		return "UserType [id=" + id + ", name=" + name + ", user=" + user + "]";
+		return "Subject [id=" + id + ", name=" + name + ", tests=" + tests.toString() + "]";
 	}
 }

@@ -10,25 +10,29 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "user_type")
-public class UserType implements Serializable {
+public class Report implements Serializable {
 	private static final long serialVersionUID = 224965383439056754L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "name", nullable = false)
-	private String name;
+	@Column(name = "value", nullable = false)
+	private Double value;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	private User user;
 
 	@OneToMany(mappedBy = "user_type", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<User> user;
+	private List<Test> tests;
 
-	public UserType() {
+	public Report() {
 
 	}
 
@@ -40,24 +44,32 @@ public class UserType implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public Double getValue() {
+		return value;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setValue(Double value) {
+		this.value = value;
 	}
 
-	public List<User> getUser() {
+	public User getUser() {
 		return user;
 	}
 
-	public void setUser(List<User> user) {
+	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public List<Test> getTests() {
+		return tests;
+	}
+
+	public void setTests(List<Test> tests) {
+		this.tests = tests;
 	}
 
 	@Override
 	public String toString() {
-		return "UserType [id=" + id + ", name=" + name + ", user=" + user + "]";
+		return "Report [id=" + id + ", value=" + value + ", user=" + user + ", tests=" + tests + "]";
 	}
 }

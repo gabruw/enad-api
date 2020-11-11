@@ -1,7 +1,9 @@
 package com.uniacademia.enade.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +12,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -36,11 +40,14 @@ public class User implements Serializable {
 	@Column(name = "picture", nullable = false)
 	private String picture;
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	private UserType userType;
+
 	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Authentication authentication;
 
-	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private UserType userType;
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Subject> subject;
 
 	public User() {
 
@@ -86,6 +93,14 @@ public class User implements Serializable {
 		this.picture = picture;
 	}
 
+	public UserType getUserType() {
+		return userType;
+	}
+
+	public void setUserType(UserType userType) {
+		this.userType = userType;
+	}
+
 	public Authentication getAuthentication() {
 		return authentication;
 	}
@@ -94,20 +109,24 @@ public class User implements Serializable {
 		this.authentication = authentication;
 	}
 
-	public UserType getUserType() {
-		return userType;
+	public List<Subject> getSubject() {
+		return subject;
 	}
 
-	public void setUserType(UserType userType) {
-		this.userType = userType;
+	public void setSubject(List<Subject> subject) {
+		this.subject = subject;
 	}
-	
-	public static User convertInsertUserToUser(InsertUser insertUser) {
+
+	public static User buildUser(InsertUser insertUser, Authentication authentication, UserType userType) {
 		User user = new User();
 		user.setCpf(insertUser.getCpf());
 		user.setName(insertUser.getName());
 		user.setBirth(insertUser.getBirth());
 		user.setPicture(insertUser.getPicture());
+
+		user.setUserType(userType);
+		user.setAuthentication(authentication);
+		user.setSubject(new ArrayList<Subject>());
 
 		return user;
 	}
@@ -115,6 +134,7 @@ public class User implements Serializable {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", cpf=" + cpf + ", birth=" + birth + ", picture=" + picture
-				+ ", authentication=" + authentication.toString() + ", userType=" + userType.toString() + "]";
+				+ ", userType=" + userType.toString() + ", authentication=" + authentication.toString() + ", subject="
+				+ subject.toString() + "]";
 	}
 }

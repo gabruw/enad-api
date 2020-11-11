@@ -1,34 +1,32 @@
 package com.uniacademia.enade.entity;
 
 import java.io.Serializable;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "user_type")
-public class UserType implements Serializable {
-	private static final long serialVersionUID = 224965383439056754L;
+@Table(name = "category")
+public class Category implements Serializable {
+	private static final long serialVersionUID = 9152481038693970123L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "name", nullable = false)
+	@Column(name = "description", nullable = false)
 	private String name;
 
-	@OneToMany(mappedBy = "user_type", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<User> user;
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Question question;
 
-	public UserType() {
+	public Category() {
 
 	}
 
@@ -48,16 +46,16 @@ public class UserType implements Serializable {
 		this.name = name;
 	}
 
-	public List<User> getUser() {
-		return user;
+	public Question getQuestion() {
+		return question;
 	}
 
-	public void setUser(List<User> user) {
-		this.user = user;
+	public void setQuestion(Question question) {
+		this.question = question;
 	}
 
 	@Override
 	public String toString() {
-		return "UserType [id=" + id + ", name=" + name + ", user=" + user + "]";
+		return "Category [id=" + id + ", name=" + name + ", question=" + question + "]";
 	}
 }
