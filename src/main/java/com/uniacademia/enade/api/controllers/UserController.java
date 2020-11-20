@@ -75,7 +75,7 @@ public class UserController {
 
 		User user = IncludeRegister.buildIncludeRegister(includeRegister.getUser(), authentication, userType.get());
 		user = this.userService.persistir(user);
-
+		
 		response.setData(user);
 		return ResponseEntity.ok(response);
 	}
