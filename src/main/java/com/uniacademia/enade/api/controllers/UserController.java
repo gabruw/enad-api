@@ -17,8 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.uniacademia.enade.api.dto.EditUser;
-import com.uniacademia.enade.api.dto.Register;
+import com.uniacademia.enade.api.dto.EditRegister;
+import com.uniacademia.enade.api.dto.IncludeRegister;
+import com.uniacademia.enade.api.dto.Login;
 import com.uniacademia.enade.api.entity.Authentication;
 import com.uniacademia.enade.api.entity.User;
 import com.uniacademia.enade.api.entity.UserType;
@@ -49,10 +50,10 @@ public class UserController {
 	}
 
 	@PostMapping("/include")
-	public ResponseEntity<Response<Register>> include(@Valid @RequestBody Register register, BindingResult result)
+	public ResponseEntity<Response<User>> include(@Valid @RequestBody IncludeRegister includeRegister, BindingResult result)
 			throws NoSuchAlgorithmException {
-		log.info("Cadastrando Usuário: {}", register.toString());
-		Response<Register> response = new Response<Register>();
+		log.info("Cadastrando Usuário: {}", includeRegister.toString());
+		Response<User> response = new Response<User>();
 
 		if (result.hasErrors()) {
 			log.error("Erro validando dados para cadastro do Usuário: {}", result.getAllErrors());
@@ -61,29 +62,29 @@ public class UserController {
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		Optional<UserType> userType = this.userTypeService.findById(register.getUser().getUserTypeId());
+		Optional<UserType> userType = this.userTypeService.findById(includeRegister.getUserType().getId());
 		if (!userType.isPresent()) {
-			log.error("Erro ao validar o Tipo de Usuário: {}", register.getUser());
+			log.error("Erro ao validar o Tipo de Usuário: {}", includeRegister.getUserType().toString());
 			response.addError(Messages.getAuthenticationError(UserTypeMessages.NONEXISTENT.toString()));
 
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		Authentication authentication = Authentication.convertLoginToAuthentication(register.getAuthentication());
+		Authentication authentication = Login.buildAuthentication(includeRegister.getAuthentication());
 		authentication = this.authenticationService.persistir(authentication);
 
-		User user = User.buildUser(register.getUser(), authentication, userType.get());
-		this.userService.persistir(user);
+		User user = IncludeRegister.buildIncludeRegister(includeRegister.getUser(), authentication, userType.get());
+		user = this.userService.persistir(user);
 
-		response.setData(register);
+		response.setData(user);
 		return ResponseEntity.ok(response);
 	}
 
 	@PutMapping("/edit")
-	public ResponseEntity<Response<EditUser>> register(@Valid @RequestBody EditUser editUser, BindingResult result)
+	public ResponseEntity<Response<User>> edit(@Valid @RequestBody EditRegister editRegister, BindingResult result)
 			throws NoSuchAlgorithmException {
-		log.info("Editando Usuário: {}", editUser.toString());
-		Response<EditUser> response = new Response<EditUser>();
+		log.info("Editando Usuário: {}", editRegister.toString());
+		Response<User> response = new Response<User>();
 
 		if (result.hasErrors()) {
 			log.error("Erro validando dados para edição do Usuário: {}", result.getAllErrors());
@@ -92,18 +93,21 @@ public class UserController {
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		Optional<UserType> userType = this.userTypeService.findById(editUser.getUserTypeId());
+		Optional<UserType> userType = this.userTypeService.findById(editRegister.getUserType().getId());
 		if (!userType.isPresent()) {
-			log.error("Erro ao validar o Tipo de Usuário: {}", editUser.getUserTypeId());
+			log.error("Erro ao validar o Tipo de Usuário: {}", editRegister.getUserType().toString());
 			response.addError(Messages.getAuthenticationError(UserTypeMessages.NONEXISTENT.toString()));
 
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		User user = User.buildUser(editUser, userType.get());
-		this.userService.persistir(user);
+		Authentication authentication = Login.buildAuthentication(editRegister.getAuthentication());
+		authentication = this.authenticationService.persistir(authentication);
+		
+		User user = EditRegister.buildEditRegister(editRegister.getUser(), authentication, userType.get());
+		user = this.userService.persistir(user);
 
-		response.setData(editUser);
+		response.setData(user);
 		return ResponseEntity.ok(response);
 	}
 }

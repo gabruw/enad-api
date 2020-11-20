@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.uniacademia.enade.api.dto.EditCategory;
+import com.uniacademia.enade.api.dto.IncludeCategory;
 import com.uniacademia.enade.api.entity.Category;
 import com.uniacademia.enade.api.response.Response;
 import com.uniacademia.enade.api.service.CategoryService;
@@ -35,8 +37,8 @@ public class CategoryController {
 
 	}
 
-	@GetMapping("/getAll")
-	public ResponseEntity<Response<String>> teste() throws NoSuchAlgorithmException {
+	@GetMapping("/all")
+	public ResponseEntity<Response<String>> all() throws NoSuchAlgorithmException {
 		Response<String> response = new Response<String>();
 
 		response.setData("Batata");
@@ -45,9 +47,9 @@ public class CategoryController {
 	}
 
 	@PostMapping("/include")
-	public ResponseEntity<Response<Category>> include(@Valid @RequestBody Category category, BindingResult result)
-			throws NoSuchAlgorithmException {
-		log.info("Cadastrando Categoria: {}", category.toString());
+	public ResponseEntity<Response<Category>> include(@Valid @RequestBody IncludeCategory includeCategory,
+			BindingResult result) throws NoSuchAlgorithmException {
+		log.info("Cadastrando Categoria: {}", includeCategory.toString());
 		Response<Category> response = new Response<Category>();
 
 		if (result.hasErrors()) {
@@ -57,16 +59,17 @@ public class CategoryController {
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		this.categoryService.persistir(category);
-		response.setData(category);
+		Category category = IncludeCategory.buildIncludeCategory(includeCategory);
+		category = this.categoryService.persistir(category);
 
+		response.setData(category);
 		return ResponseEntity.ok(response);
 	}
 
 	@PatchMapping("/edit")
-	public ResponseEntity<Response<Category>> edit(@Valid @RequestBody Category category, BindingResult result)
+	public ResponseEntity<Response<Category>> edit(@Valid @RequestBody EditCategory editCategory, BindingResult result)
 			throws NoSuchAlgorithmException {
-		log.info("Editar Categoria: {}", category.toString());
+		log.info("Editar Categoria: {}", editCategory.toString());
 		Response<Category> response = new Response<Category>();
 
 		if (result.hasErrors()) {
@@ -76,9 +79,10 @@ public class CategoryController {
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		this.categoryService.persistir(category);
-		response.setData(category);
+		Category category = EditCategory.buildEditCategory(editCategory);
+		category = this.categoryService.persistir(category);
 
+		response.setData(category);
 		return ResponseEntity.ok(response);
 	}
 

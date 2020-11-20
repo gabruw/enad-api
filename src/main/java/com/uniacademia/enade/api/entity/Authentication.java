@@ -12,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.uniacademia.enade.api.dto.Login;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,14 +36,6 @@ public class Authentication implements Serializable {
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private User user;
-
-	public static Authentication convertLoginToAuthentication(Login login) {
-		Authentication authentication = new Authentication();
-		authentication.setEmail(login.getEmail());
-		authentication.setPassword(login.getPassword());
-
-		return authentication;
-	}
 
 	@Override
 	public String toString() {

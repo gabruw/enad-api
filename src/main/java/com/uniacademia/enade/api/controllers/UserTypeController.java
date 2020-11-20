@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.uniacademia.enade.api.dto.EditUserType;
+import com.uniacademia.enade.api.dto.IncludeUserType;
 import com.uniacademia.enade.api.entity.UserType;
 import com.uniacademia.enade.api.response.Response;
 import com.uniacademia.enade.api.service.UserTypeService;
@@ -35,9 +37,9 @@ public class UserTypeController {
 	}
 
 	@PostMapping("/include")
-	public ResponseEntity<Response<UserType>> include(@Valid @RequestBody UserType userType, BindingResult result)
-			throws NoSuchAlgorithmException {
-		log.info("Cadastrando Tipo de Usuário: {}", userType.toString());
+	public ResponseEntity<Response<UserType>> include(@Valid @RequestBody IncludeUserType includeUserType,
+			BindingResult result) throws NoSuchAlgorithmException {
+		log.info("Cadastrando Tipo de Usuário: {}", includeUserType.toString());
 		Response<UserType> response = new Response<UserType>();
 
 		if (result.hasErrors()) {
@@ -47,16 +49,17 @@ public class UserTypeController {
 			return ResponseEntity.badRequest().body(response);
 		}
 
+		UserType userType = IncludeUserType.buildIncludeUserType(includeUserType);
 		this.userTypeService.persistir(userType);
-		response.setData(userType);
 
+		response.setData(userType);
 		return ResponseEntity.ok(response);
 	}
 
 	@PatchMapping("/edit")
-	public ResponseEntity<Response<UserType>> edit(@Valid @RequestBody UserType userType, BindingResult result)
+	public ResponseEntity<Response<UserType>> edit(@Valid @RequestBody EditUserType editUserType, BindingResult result)
 			throws NoSuchAlgorithmException {
-		log.info("Editar Tipo de Usuário: {}", userType.toString());
+		log.info("Editar Tipo de Usuário: {}", editUserType.toString());
 		Response<UserType> response = new Response<UserType>();
 
 		if (result.hasErrors()) {
@@ -66,9 +69,10 @@ public class UserTypeController {
 			return ResponseEntity.badRequest().body(response);
 		}
 
+		UserType userType = EditUserType.buildIncludeUserType(editUserType);
 		this.userTypeService.persistir(userType);
-		response.setData(userType);
 
+		response.setData(userType);
 		return ResponseEntity.ok(response);
 	}
 

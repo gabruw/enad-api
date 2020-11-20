@@ -1,7 +1,6 @@
 package com.uniacademia.enade.api.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,9 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.uniacademia.enade.api.dto.EditUser;
-import com.uniacademia.enade.api.dto.InsertUser;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,7 +36,7 @@ public class User implements Serializable {
 	private String name;
 
 	@Column(name = "cpf", unique = true, nullable = false)
-	private Long cpf;
+	private String cpf;
 
 	@Column(name = "birth", nullable = false)
 	private Date birth;
@@ -56,32 +52,6 @@ public class User implements Serializable {
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Subject> subjects;
-
-	public static User buildUser(InsertUser insertUser, Authentication authentication, UserType userType) {
-		User user = new User();
-		user.setCpf(insertUser.getCpf());
-		user.setName(insertUser.getName());
-		user.setBirth(insertUser.getBirth());
-		user.setPicture(insertUser.getPicture());
-
-		user.setUserType(userType);
-		user.setAuthentication(authentication);
-		user.setSubjects(new ArrayList<Subject>());
-
-		return user;
-	}
-
-	public static User buildUser(EditUser editUser, UserType userType) {
-		User user = new User();
-		user.setId(editUser.getId());
-		user.setCpf(editUser.getCpf());
-		user.setName(editUser.getName());
-		user.setBirth(editUser.getBirth());
-		user.setPicture(editUser.getPicture());
-		user.setUserType(userType);
-
-		return user;
-	}
 
 	@Override
 	public String toString() {
