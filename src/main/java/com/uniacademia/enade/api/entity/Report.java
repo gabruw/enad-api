@@ -41,7 +41,6 @@ public class Report implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Report [id=" + id + ", value=" + value + ", user=" + user.toString() + ", tests=" + tests.toString()
-				+ "]";
+		return "Report [id=" + id + ", value=" + value + ", user=" + user + ", tests=" + tests + "]";
 	}
 }

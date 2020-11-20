@@ -30,7 +30,7 @@ public class Authentication implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "email", nullable = false)
+	@Column(name = "email", unique = true, nullable = false)
 	private String email;
 
 	@Column(name = "password", nullable = false)
@@ -49,7 +49,6 @@ public class Authentication implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Authentication [id=" + id + ", email=" + email + ", password=" + password + ", user=" + user.toString()
-				+ "]";
+		return "Authentication [id=" + id + ", email=" + email + ", password=" + password + ", user=" + user + "]";
 	}
 }

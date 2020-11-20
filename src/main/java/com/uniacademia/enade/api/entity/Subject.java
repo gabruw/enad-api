@@ -41,7 +41,6 @@ public class Subject implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Subject [id=" + id + ", name=" + name + ", user=" + user.toString() + ", tests=" + tests.toString()
-				+ "]";
+		return "Subject [id=" + id + ", name=" + name + ", user=" + user + ", tests=" + tests + "]";
 	}
 }

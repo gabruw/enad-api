@@ -23,8 +23,8 @@ import com.uniacademia.enade.api.response.Response;
 import com.uniacademia.enade.api.service.CategoryService;
 
 @RestController
-@RequestMapping("/category")
 @CrossOrigin(origins = "*")
+@RequestMapping("/category")
 public class CategoryController {
 	private static final Logger log = LoggerFactory.getLogger(CategoryController.class);
 
@@ -35,7 +35,7 @@ public class CategoryController {
 
 	}
 
-	@GetMapping
+	@GetMapping("/getAll")
 	public ResponseEntity<Response<String>> teste() throws NoSuchAlgorithmException {
 		Response<String> response = new Response<String>();
 
@@ -44,7 +44,7 @@ public class CategoryController {
 		return ResponseEntity.ok(response);
 	}
 
-	@PostMapping
+	@PostMapping("/include")
 	public ResponseEntity<Response<Category>> include(@Valid @RequestBody Category category, BindingResult result)
 			throws NoSuchAlgorithmException {
 		log.info("Cadastrando Categoria: {}", category.toString());
@@ -52,7 +52,7 @@ public class CategoryController {
 
 		if (result.hasErrors()) {
 			log.error("Erro validando dados de cadastro de Categoria: {}", result.getAllErrors());
-			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+			result.getAllErrors().forEach(error -> response.addFieldError(error.getDefaultMessage()));
 
 			return ResponseEntity.badRequest().body(response);
 		}
@@ -63,7 +63,7 @@ public class CategoryController {
 		return ResponseEntity.ok(response);
 	}
 
-	@PatchMapping
+	@PatchMapping("/edit")
 	public ResponseEntity<Response<Category>> edit(@Valid @RequestBody Category category, BindingResult result)
 			throws NoSuchAlgorithmException {
 		log.info("Editar Categoria: {}", category.toString());
@@ -71,7 +71,7 @@ public class CategoryController {
 
 		if (result.hasErrors()) {
 			log.error("Erro validando dados para edição de Categoria: {}", result.getAllErrors());
-			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+			result.getAllErrors().forEach(error -> response.addFieldError(error.getDefaultMessage()));
 
 			return ResponseEntity.badRequest().body(response);
 		}
@@ -82,7 +82,7 @@ public class CategoryController {
 		return ResponseEntity.ok(response);
 	}
 
-	@DeleteMapping
+	@DeleteMapping("/remove")
 	public ResponseEntity<Response<Long>> remove(@Valid @RequestBody Long id, BindingResult result)
 			throws NoSuchAlgorithmException {
 		log.info("Removendo Categoria: {}", id);

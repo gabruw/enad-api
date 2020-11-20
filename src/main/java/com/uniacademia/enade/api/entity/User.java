@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.uniacademia.enade.api.dto.EditUser;
 import com.uniacademia.enade.api.dto.InsertUser;
 
 import lombok.Getter;
@@ -38,7 +39,7 @@ public class User implements Serializable {
 	@Column(name = "name", nullable = false)
 	private String name;
 
-	@Column(name = "cpf", nullable = false)
+	@Column(name = "cpf", unique = true, nullable = false)
 	private Long cpf;
 
 	@Column(name = "birth", nullable = false)
@@ -70,10 +71,21 @@ public class User implements Serializable {
 		return user;
 	}
 
+	public static User buildUser(EditUser editUser, UserType userType) {
+		User user = new User();
+		user.setId(editUser.getId());
+		user.setCpf(editUser.getCpf());
+		user.setName(editUser.getName());
+		user.setBirth(editUser.getBirth());
+		user.setPicture(editUser.getPicture());
+		user.setUserType(userType);
+
+		return user;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", cpf=" + cpf + ", birth=" + birth + ", picture=" + picture
-				+ ", userType=" + userType.toString() + ", authentication=" + authentication.toString() + ", subjects="
-				+ subjects.toString() + "]";
+				+ ", userType=" + userType + ", authentication=" + authentication + ", subjects=" + subjects + "]";
 	}
 }

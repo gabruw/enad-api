@@ -35,6 +35,6 @@ public class Answer implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Answer [id=" + id + ", description=" + description + ", question=" + question.toString() + "]";
+		return "Answer [id=" + id + ", description=" + description + ", question=" + question + "]";
 	}
 }

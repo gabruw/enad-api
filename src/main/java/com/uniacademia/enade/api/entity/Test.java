@@ -51,7 +51,7 @@ public class Test implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Test [id=" + id + ", date=" + date + ", user=" + user.toString() + ", report=" + report.toString()
-				+ ", subject=" + subject.toString() + ", questions=" + questions.toString() + "]";
+		return "Test [id=" + id + ", date=" + date + ", user=" + user + ", report=" + report + ", subject=" + subject
+				+ ", questions=" + questions + "]";
 	}
 }

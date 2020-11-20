@@ -28,13 +28,13 @@ public class Category implements Serializable {
 	private Long id;
 
 	@Column(name = "description", nullable = false)
-	private String name;
+	private String description;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Question question;
 
 	@Override
 	public String toString() {
-		return "Category [id=" + id + ", name=" + name + ", question=" + question.toString() + "]";
+		return "Category [id=" + id + ", description=" + description + ", question=" + question + "]";
 	}
 }

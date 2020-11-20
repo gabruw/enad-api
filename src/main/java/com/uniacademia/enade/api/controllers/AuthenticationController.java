@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.uniacademia.enade.api.dto.Login;
 import com.uniacademia.enade.api.entity.Authentication;
+import com.uniacademia.enade.api.enumerator.AuthenticationMessages;
 import com.uniacademia.enade.api.response.Response;
 import com.uniacademia.enade.api.service.AuthenticationService;
+import com.uniacademia.enade.api.utils.Messages;
 
 @RestController
-@RequestMapping("/authentication")
 @CrossOrigin(origins = "*")
+@RequestMapping("/authentication")
 public class AuthenticationController {
 	private static final Logger log = LoggerFactory.getLogger(AuthenticationController.class);
 
@@ -34,7 +36,7 @@ public class AuthenticationController {
 
 	}
 
-	@PostMapping
+	@PostMapping("/login")
 	public ResponseEntity<Response<Authentication>> login(@Valid @RequestBody Login login, BindingResult result)
 			throws NoSuchAlgorithmException {
 		log.info("Buscando Autenticação: {}", login.toString());
@@ -42,7 +44,7 @@ public class AuthenticationController {
 
 		if (result.hasErrors()) {
 			log.error("Erro validando dados de login da Autenticação: {}", result.getAllErrors());
-			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+			result.getAllErrors().forEach(error -> response.addFieldError(error.getDefaultMessage()));
 
 			return ResponseEntity.badRequest().body(response);
 		}
@@ -50,14 +52,16 @@ public class AuthenticationController {
 		Optional<Authentication> returned = this.authenticationService.findByEmail(login.getEmail());
 		if (!returned.isPresent()) {
 			log.info("Autenticação não encontrada para o Email: {}", login.getEmail());
-			response.getErrors().add(String.format("Email %s não encontrado.", login.getEmail()));
+			response.addError(
+					Messages.getAuthenticationError(AuthenticationMessages.INVALIDEMAIL.toString(), login.getEmail()));
 
 			return ResponseEntity.badRequest().body(response);
 		}
 
 		if (login.getPassword() != returned.get().getPassword()) {
-			log.info("Autenticação com o Password incorreto: {}", login.getEmail());
-			response.getErrors().add("Password incorreto.");
+			log.info("Autenticação com o Password incorreto: {}", login.getPassword());
+			response.addError(Messages.getAuthenticationError(AuthenticationMessages.INVALIDPASSWORD.toString(),
+					login.getPassword()));
 
 			return ResponseEntity.status(403).body(response);
 		}

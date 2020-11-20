@@ -22,8 +22,8 @@ import com.uniacademia.enade.api.response.Response;
 import com.uniacademia.enade.api.service.UserTypeService;
 
 @RestController
-@RequestMapping("/user-type")
 @CrossOrigin(origins = "*")
+@RequestMapping("/user-type")
 public class UserTypeController {
 	private static final Logger log = LoggerFactory.getLogger(UserTypeController.class);
 
@@ -34,7 +34,7 @@ public class UserTypeController {
 
 	}
 
-	@PostMapping
+	@PostMapping("/include")
 	public ResponseEntity<Response<UserType>> include(@Valid @RequestBody UserType userType, BindingResult result)
 			throws NoSuchAlgorithmException {
 		log.info("Cadastrando Tipo de Usuário: {}", userType.toString());
@@ -42,7 +42,7 @@ public class UserTypeController {
 
 		if (result.hasErrors()) {
 			log.error("Erro validando dados de cadastro de Tipo de Usuário: {}", result.getAllErrors());
-			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+			result.getAllErrors().forEach(error -> response.addFieldError(error.getDefaultMessage()));
 
 			return ResponseEntity.badRequest().body(response);
 		}
@@ -53,7 +53,7 @@ public class UserTypeController {
 		return ResponseEntity.ok(response);
 	}
 
-	@PatchMapping
+	@PatchMapping("/edit")
 	public ResponseEntity<Response<UserType>> edit(@Valid @RequestBody UserType userType, BindingResult result)
 			throws NoSuchAlgorithmException {
 		log.info("Editar Tipo de Usuário: {}", userType.toString());
@@ -61,7 +61,7 @@ public class UserTypeController {
 
 		if (result.hasErrors()) {
 			log.error("Erro validando dados para edição de Tipo de Usuário: {}", result.getAllErrors());
-			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+			result.getAllErrors().forEach(error -> response.addFieldError(error.getDefaultMessage()));
 
 			return ResponseEntity.badRequest().body(response);
 		}
@@ -72,7 +72,7 @@ public class UserTypeController {
 		return ResponseEntity.ok(response);
 	}
 
-	@DeleteMapping
+	@DeleteMapping("/remove")
 	public ResponseEntity<Response<Long>> remove(@Valid @RequestBody Long id, BindingResult result)
 			throws NoSuchAlgorithmException {
 		log.info("Removendo Tipo de Usuário: {}", id);

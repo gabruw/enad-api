@@ -29,7 +29,7 @@ public class UserType implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "name", nullable = false)
+	@Column(name = "name", unique = true, nullable = false)
 	private String name;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -37,6 +37,6 @@ public class UserType implements Serializable {
 
 	@Override
 	public String toString() {
-		return "UserType [id=" + id + ", name=" + name + ", user=" + users.toString() + "]";
+		return "UserType [id=" + id + ", name=" + name + ", user=" + users + "]";
 	}
 }

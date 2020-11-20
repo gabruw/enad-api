@@ -9,7 +9,7 @@ import com.uniacademia.enade.api.entity.Category;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-	@Transactional(readOnly = true)
+	@Transactional
 	void deleteById(Long id);
 
 	@Transactional(readOnly = true)

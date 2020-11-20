@@ -7,19 +7,29 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
 @NoArgsConstructor
 public class Response<T> {
 
 	@Getter
+	@Setter
 	private T data;
-	private List<String> errors;
+	private List<ResponseError> errors;
 
-	public List<String> getErrors() {
+	public List<ResponseError> getErrors() {
 		if (this.errors == null) {
-			this.errors = new ArrayList<String>();
+			this.errors = new ArrayList<ResponseError>();
 		}
+
 		return errors;
+	}
+
+	public void addFieldError(String text) {
+		String title = "Erro ao validar o campo";
+		errors.add(ResponseError.convert(title, text));
+	}
+
+	public void addError(ResponseError responseError) {
+		errors.add(responseError);
 	}
 
 	public boolean hasErrors() {
