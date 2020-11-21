@@ -50,7 +50,7 @@ public class AuthenticationController {
 		}
 
 		Optional<Authentication> returned = this.authenticationService.findByEmail(login.getEmail());
-		if (!returned.isPresent()) {
+		if (returned.isEmpty()) {
 			log.info("Autenticação não encontrada para o Email: {}", login.getEmail());
 			response.addError(
 					Messages.getAuthenticationError(AuthenticationMessages.INVALIDEMAIL.toString(), login.getEmail()));

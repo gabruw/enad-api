@@ -22,7 +22,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Override
 	public Optional<Authentication> findByEmail(String email) {
 		log.info("Buscando uma autenticação para o Email {}", email);
-		return Optional.ofNullable(authenticationRepository.findByEmail(email));
+		return Optional.ofNullable(this.authenticationRepository.findByEmail(email));
+	}
+
+	@Override
+	public void deleteById(Long id) {
+		log.info("Removendo autenticação por Id {}", id);
+		this.authenticationRepository.deleteById(id);
 	}
 
 	@Override

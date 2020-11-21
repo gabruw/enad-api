@@ -10,11 +10,21 @@ import com.uniacademia.enade.api.response.ResponseError;
 
 public class Messages {
 
+	public static ResponseError getCategoriaError(final String key, final Object... params) {
+		ResourceBundle bundle = ResourceBundle.getBundle("CategoryMessages", Locale.getDefault());
+		return getErrorMessage(bundle, key, params);
+	}
+
 	public static ResponseError getAuthenticationError(final String key, final Object... params) {
 		ResourceBundle bundle = ResourceBundle.getBundle("AuthenticationMessages", Locale.getDefault());
 		return getErrorMessage(bundle, key, params);
 	}
-	
+
+	public static ResponseError getUserError(final String key, final Object... params) {
+		ResourceBundle bundle = ResourceBundle.getBundle("UserMessages", Locale.getDefault());
+		return getErrorMessage(bundle, key, params);
+	}
+
 	public static ResponseError getUserTypeError(final String key, final Object... params) {
 		ResourceBundle bundle = ResourceBundle.getBundle("UseTypeMessages", Locale.getDefault());
 		return getErrorMessage(bundle, key, params);
@@ -33,7 +43,7 @@ public class Messages {
 	private static List<String> convert(String key) {
 		String text = key.concat(".text");
 		String title = key.concat(".title");
-		
+
 		List<String> converted = new ArrayList<String>() {
 			private static final long serialVersionUID = 66748189137L;
 			{

@@ -1,12 +1,13 @@
 package com.uniacademia.enade.api.enumerator;
 
-public enum GenericMessages {
+public enum AuthenticationMessages {
 	NONEXISTENT("nonexistent"),
-	ALREADYEXISTENT("alreadyexistent");
+	INVALIDPASSWORD("invalid.password"),
+	INVALIDEMAIL("invalid.email");
 	
 	private final String text;
 
-	GenericMessages(final String text) {
+	AuthenticationMessages(final String text) {
 		this.text = text;
 	}
 

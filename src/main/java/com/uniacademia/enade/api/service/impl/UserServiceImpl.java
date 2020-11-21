@@ -21,8 +21,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Optional<User> findById(Long id) {
-		log.info("Buscando um Tipo de Usuário por Id {}", id);
+		log.info("Buscando um Usuário por Id {}", id);
 		return userRepository.findById(id);
+	}
+
+	@Override
+	public void deleteById(Long id) {
+		log.info("Removendo Usuário por Id {}", id);
+		userRepository.deleteById(id);
 	}
 
 	@Override

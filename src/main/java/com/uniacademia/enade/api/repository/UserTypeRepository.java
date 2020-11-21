@@ -14,4 +14,7 @@ public interface UserTypeRepository extends JpaRepository<UserType, Long> {
 
 	@Transactional(readOnly = true)
 	Optional<UserType> findById(Long id);
+	
+	@Transactional(readOnly = true)
+	Optional<UserType> findByName(String name);
 }

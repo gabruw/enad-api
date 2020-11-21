@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +25,7 @@ import com.uniacademia.enade.api.dto.Login;
 import com.uniacademia.enade.api.entity.Authentication;
 import com.uniacademia.enade.api.entity.User;
 import com.uniacademia.enade.api.entity.UserType;
-import com.uniacademia.enade.api.enumerator.UserTypeMessages;
+import com.uniacademia.enade.api.enumerator.GenericMessages;
 import com.uniacademia.enade.api.response.Response;
 import com.uniacademia.enade.api.service.AuthenticationService;
 import com.uniacademia.enade.api.service.UserService;
@@ -50,8 +52,8 @@ public class UserController {
 	}
 
 	@PostMapping("/include")
-	public ResponseEntity<Response<User>> include(@Valid @RequestBody IncludeRegister includeRegister, BindingResult result)
-			throws NoSuchAlgorithmException {
+	public ResponseEntity<Response<User>> include(@Valid @RequestBody IncludeRegister includeRegister,
+			BindingResult result) throws NoSuchAlgorithmException {
 		log.info("Cadastrando Usuário: {}", includeRegister.toString());
 		Response<User> response = new Response<User>();
 
@@ -63,9 +65,9 @@ public class UserController {
 		}
 
 		Optional<UserType> userType = this.userTypeService.findById(includeRegister.getUserType().getId());
-		if (!userType.isPresent()) {
+		if (userType.isEmpty()) {
 			log.error("Erro ao validar o Tipo de Usuário: {}", includeRegister.getUserType().toString());
-			response.addError(Messages.getAuthenticationError(UserTypeMessages.NONEXISTENT.toString()));
+			response.addError(Messages.getUserError(GenericMessages.NONEXISTENT.toString()));
 
 			return ResponseEntity.badRequest().body(response);
 		}
@@ -75,7 +77,7 @@ public class UserController {
 
 		User user = IncludeRegister.buildIncludeRegister(includeRegister.getUser(), authentication, userType.get());
 		user = this.userService.persistir(user);
-		
+
 		response.setData(user);
 		return ResponseEntity.ok(response);
 	}
@@ -94,20 +96,40 @@ public class UserController {
 		}
 
 		Optional<UserType> userType = this.userTypeService.findById(editRegister.getUserType().getId());
-		if (!userType.isPresent()) {
+		if (userType.isEmpty()) {
 			log.error("Erro ao validar o Tipo de Usuário: {}", editRegister.getUserType().toString());
-			response.addError(Messages.getAuthenticationError(UserTypeMessages.NONEXISTENT.toString()));
+			response.addError(Messages.getUserError(GenericMessages.NONEXISTENT.toString()));
 
 			return ResponseEntity.badRequest().body(response);
 		}
 
 		Authentication authentication = Login.buildAuthentication(editRegister.getAuthentication());
 		authentication = this.authenticationService.persistir(authentication);
-		
+
 		User user = EditRegister.buildEditRegister(editRegister.getUser(), authentication, userType.get());
 		user = this.userService.persistir(user);
 
 		response.setData(user);
+		return ResponseEntity.ok(response);
+	}
+
+	@DeleteMapping("/remove/{id}")
+	public ResponseEntity<Response<User>> remove(@PathVariable("id") Long id) throws NoSuchAlgorithmException {
+		log.info("Removendo Usuário: {}", id);
+		Response<User> response = new Response<User>();
+
+		Optional<User> user = this.userService.findById(id);
+		if (user.isEmpty()) {
+			log.info("Autenticação não encontrada para o Email: {}", id);
+			response.addError(Messages.getUserError(GenericMessages.NONEXISTENT.toString(), id));
+
+			return ResponseEntity.badRequest().body(response);
+		}
+
+		this.authenticationService.deleteById(user.get().getAuthentication().getId());
+		this.userService.deleteById(id);
+
+		response.setData(user.get());
 		return ResponseEntity.ok(response);
 	}
 }

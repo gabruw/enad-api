@@ -1,5 +1,6 @@
 package com.uniacademia.enade.api.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -20,20 +21,32 @@ public class UserTypeServiceImpl implements UserTypeService {
 	private UserTypeRepository userTypeRepository;
 
 	@Override
+	public List<UserType> findAll() {
+		log.info("Buscando todos os tipos de usuários");
+		return userTypeRepository.findAll();
+	}
+
+	@Override
 	public Optional<UserType> findById(Long id) {
-		log.info("Buscando um Tipo de Usuário por Id {}", id);
+		log.info("Buscando um tipo de usuário pelo 'Id' {}", id);
 		return userTypeRepository.findById(id);
 	}
 
 	@Override
 	public void deleteById(Long id) {
-		log.info("Removendo Tipo de Usuário por Id {}", id);
+		log.info("Removendo tipo de usuário pelo 'Id' {}", id);
 		userTypeRepository.deleteById(id);
 	}
 
 	@Override
 	public UserType persistir(UserType userType) {
-		log.info("Persistindo Tipo de Usuário: {}", userType);
+		log.info("Persistindo tipo de usuário: {}", userType);
 		return this.userTypeRepository.save(userType);
+	}
+
+	@Override
+	public Optional<UserType> findByName(String name) {
+		log.info("Buscando um tipo de usuário pelo 'Nome' {}", name);
+		return userTypeRepository.findByName(name);
 	}
 }

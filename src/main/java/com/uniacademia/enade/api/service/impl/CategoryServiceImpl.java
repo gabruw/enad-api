@@ -1,5 +1,6 @@
 package com.uniacademia.enade.api.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -20,20 +21,26 @@ public class CategoryServiceImpl implements CategoryService {
 	private CategoryRepository categoryRepository;
 
 	@Override
-	public Optional<Category> findById(Long id) {
-		log.info("Buscando um Categoria por Id {}", id);
-		return categoryRepository.findById(id);
+	public List<Category> findAll() {
+		log.info("Buscando todos as categorias");
+		return categoryRepository.findAll();
 	}
 
 	@Override
 	public void deleteById(Long id) {
-		log.info("Removendo Categoria por Id {}", id);
+		log.info("Removendo categoria pelo 'Id': {}", id);
 		categoryRepository.deleteById(id);
 	}
 
 	@Override
+	public Optional<Category> findById(Long id) {
+		log.info("Buscando uma categoria pelo 'Id': {}", id);
+		return categoryRepository.findById(id);
+	}
+
+	@Override
 	public Category persistir(Category category) {
-		log.info("Persistindo Categoria: {}", category);
+		log.info("Persistindo categoria: {}", category);
 		return this.categoryRepository.save(category);
 	}
 }
