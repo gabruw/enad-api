@@ -34,7 +34,7 @@ public class Authentication implements Serializable {
 	@Column(name = "password", nullable = false)
 	private String password;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private User user;
 
 	@Override
