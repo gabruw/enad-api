@@ -1,6 +1,7 @@
 package com.uniacademia.enade.api.controllers;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,6 +40,32 @@ public class UserTypeController {
 
 	@Autowired
 	private UserTypeService userTypeService;
+
+	@GetMapping("/find-all")
+	public ResponseEntity<Response<List<UserType>>> findAll() throws NoSuchAlgorithmException {
+		Response<List<UserType>> response = new Response<List<UserType>>();
+
+		List<UserType> userTypes = userTypeService.findAll();
+		response.setData(userTypes);
+
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("/find/{id}")
+	public ResponseEntity<Response<UserType>> find(@PathVariable("id") Long id) throws NoSuchAlgorithmException {
+		Response<UserType> response = new Response<UserType>();
+
+		Optional<UserType> category = userTypeService.findById(id);
+		if (category.isEmpty()) {
+			log.info("Erro ao validar o 'Id' para busca do tipo de usuário: {}", id);
+			response.addError(Messages.getUserTypeError(GenericMessages.NONEXISTENT.toString()));
+
+			return ResponseEntity.badRequest().body(response);
+		}
+
+		response.setData(category.get());
+		return ResponseEntity.ok(response);
+	}
 
 	@PostMapping("/include")
 	public ResponseEntity<Response<UserType>> include(@Valid @RequestBody IncludeUserType includeUserType,

@@ -41,13 +41,29 @@ public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
 
-	@GetMapping("/all")
-	public ResponseEntity<Response<List<Category>>> all() throws NoSuchAlgorithmException {
+	@GetMapping("/find-all")
+	public ResponseEntity<Response<List<Category>>> findAll() throws NoSuchAlgorithmException {
 		Response<List<Category>> response = new Response<List<Category>>();
 
 		List<Category> categories = categoryService.findAll();
 		response.setData(categories);
 
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("/find/{id}")
+	public ResponseEntity<Response<Category>> find(@PathVariable("id") Long id) throws NoSuchAlgorithmException {
+		Response<Category> response = new Response<Category>();
+
+		Optional<Category> category = categoryService.findById(id);
+		if (category.isEmpty()) {
+			log.info("Erro ao validar o 'Id' para busca da categoria: {}", id);
+			response.addError(Messages.getCategoriaError(GenericMessages.NONEXISTENT.toString()));
+
+			return ResponseEntity.badRequest().body(response);
+		}
+
+		response.setData(category.get());
 		return ResponseEntity.ok(response);
 	}
 
