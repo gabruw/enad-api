@@ -47,7 +47,7 @@ public class User implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private UserType userType;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Authentication authentication;
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

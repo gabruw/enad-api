@@ -13,7 +13,6 @@ import com.uniacademia.enade.api.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
-
 	private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	@Autowired
@@ -21,19 +20,19 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Optional<User> findById(Long id) {
-		log.info("Buscando um Usuário por Id {}", id);
-		return userRepository.findById(id);
+		log.info("Buscando um usuário pelo 'Id' {}", id);
+		return this.userRepository.findById(id);
 	}
 
 	@Override
 	public void deleteById(Long id) {
-		log.info("Removendo Usuário por Id {}", id);
-		userRepository.deleteById(id);
+		log.info("Removendo um usuário pelo 'Id' {}", id);
+		this.userRepository.deleteById(id);
 	}
 
 	@Override
 	public User persistir(User user) {
-		log.info("Persistindo Usuário: {}", user);
+		log.info("Persistindo usuário: {}", user);
 		return this.userRepository.save(user);
 	}
 }

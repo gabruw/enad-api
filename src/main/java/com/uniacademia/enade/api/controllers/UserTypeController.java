@@ -27,7 +27,10 @@ import com.uniacademia.enade.api.response.Response;
 import com.uniacademia.enade.api.service.UserTypeService;
 import com.uniacademia.enade.api.utils.Messages;
 
+import lombok.NoArgsConstructor;
+
 @RestController
+@NoArgsConstructor
 @CrossOrigin(origins = "*")
 @RequestMapping("/user-type")
 public class UserTypeController {
@@ -35,10 +38,6 @@ public class UserTypeController {
 
 	@Autowired
 	private UserTypeService userTypeService;
-
-	public UserTypeController() {
-
-	}
 
 	@PostMapping("/include")
 	public ResponseEntity<Response<UserType>> include(@Valid @RequestBody IncludeUserType includeUserType,

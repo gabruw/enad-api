@@ -4,16 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
 public class Response<T> {
 
 	@Getter
 	@Setter
 	private T data;
 	private List<ResponseError> errors;
+
+	public Response() {
+		if (this.errors == null) {
+			this.errors = new ArrayList<ResponseError>();
+		}
+	}
 
 	public List<ResponseError> getErrors() {
 		if (this.errors == null) {

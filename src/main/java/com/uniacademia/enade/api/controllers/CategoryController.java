@@ -29,7 +29,10 @@ import com.uniacademia.enade.api.response.Response;
 import com.uniacademia.enade.api.service.CategoryService;
 import com.uniacademia.enade.api.utils.Messages;
 
+import lombok.NoArgsConstructor;
+
 @RestController
+@NoArgsConstructor
 @CrossOrigin(origins = "*")
 @RequestMapping("/category")
 public class CategoryController {
@@ -37,10 +40,6 @@ public class CategoryController {
 
 	@Autowired
 	private CategoryService categoryService;
-
-	public CategoryController() {
-
-	}
 
 	@GetMapping("/all")
 	public ResponseEntity<Response<List<Category>>> all() throws NoSuchAlgorithmException {

@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,7 +33,10 @@ import com.uniacademia.enade.api.service.UserService;
 import com.uniacademia.enade.api.service.UserTypeService;
 import com.uniacademia.enade.api.utils.Messages;
 
+import lombok.NoArgsConstructor;
+
 @RestController
+@NoArgsConstructor
 @RequestMapping("/user")
 @CrossOrigin(origins = "*")
 public class UserController {
@@ -47,15 +51,11 @@ public class UserController {
 	@Autowired
 	private AuthenticationService authenticationService;
 
-	public UserController() {
-
-	}
-
 	@PostMapping("/include")
-	public ResponseEntity<Response<User>> include(@Valid @RequestBody IncludeRegister includeRegister,
+	public ResponseEntity<Response<IncludeRegister>> include(@Valid @RequestBody IncludeRegister includeRegister,
 			BindingResult result) throws NoSuchAlgorithmException {
 		log.info("Cadastrando Usuário: {}", includeRegister.toString());
-		Response<User> response = new Response<User>();
+		Response<IncludeRegister> response = new Response<IncludeRegister>();
 
 		if (result.hasErrors()) {
 			log.error("Erro validando dados para cadastro do Usuário: {}", result.getAllErrors());
@@ -67,18 +67,21 @@ public class UserController {
 		Optional<UserType> userType = this.userTypeService.findById(includeRegister.getUserType().getId());
 		if (userType.isEmpty()) {
 			log.error("Erro ao validar o Tipo de Usuário: {}", includeRegister.getUserType().toString());
-			response.addError(Messages.getUserError(GenericMessages.NONEXISTENT.toString()));
+			response.addError(Messages.getUserTypeError(GenericMessages.NONEXISTENT.toString()));
 
 			return ResponseEntity.badRequest().body(response);
 		}
 
 		Authentication authentication = Login.buildAuthentication(includeRegister.getAuthentication());
+		User user = IncludeRegister.buildIncludeRegister(includeRegister.getUser(), authentication, userType.get());
+
+		String encodedPassword = new BCryptPasswordEncoder().encode(authentication.getPassword());
+		authentication.setPassword(encodedPassword);
+		
+		authentication.setUser(user);
 		authentication = this.authenticationService.persistir(authentication);
 
-		User user = IncludeRegister.buildIncludeRegister(includeRegister.getUser(), authentication, userType.get());
-		user = this.userService.persistir(user);
-
-		response.setData(user);
+		response.setData(includeRegister);
 		return ResponseEntity.ok(response);
 	}
 
@@ -98,7 +101,7 @@ public class UserController {
 		Optional<UserType> userType = this.userTypeService.findById(editRegister.getUserType().getId());
 		if (userType.isEmpty()) {
 			log.error("Erro ao validar o Tipo de Usuário: {}", editRegister.getUserType().toString());
-			response.addError(Messages.getUserError(GenericMessages.NONEXISTENT.toString()));
+			response.addError(Messages.getUserTypeError(GenericMessages.NONEXISTENT.toString()));
 
 			return ResponseEntity.badRequest().body(response);
 		}
