@@ -65,7 +65,7 @@ public class UserController {
 		}
 
 		Optional<UserType> userType = this.userTypeService.findById(includeRegister.getUserType().getId());
-		if (userType.isEmpty()) {
+		if (!userType.isPresent()) {
 			log.error("Erro ao validar o Tipo de Usuário: {}", includeRegister.getUserType().toString());
 			response.addError(Messages.getUserTypeError(GenericMessages.NONEXISTENT.toString()));
 
@@ -99,7 +99,7 @@ public class UserController {
 		}
 
 		Optional<UserType> userType = this.userTypeService.findById(editRegister.getUserType().getId());
-		if (userType.isEmpty()) {
+		if (!userType.isPresent()) {
 			log.error("Erro ao validar o Tipo de Usuário: {}", editRegister.getUserType().toString());
 			response.addError(Messages.getUserTypeError(GenericMessages.NONEXISTENT.toString()));
 
@@ -122,7 +122,7 @@ public class UserController {
 		Response<User> response = new Response<User>();
 
 		Optional<User> user = this.userService.findById(id);
-		if (user.isEmpty()) {
+		if (!user.isPresent()) {
 			log.info("Autenticação não encontrada para o Email: {}", id);
 			response.addError(Messages.getUserError(GenericMessages.NONEXISTENT.toString(), id));
 

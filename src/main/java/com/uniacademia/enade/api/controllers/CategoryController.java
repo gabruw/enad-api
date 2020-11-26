@@ -56,7 +56,7 @@ public class CategoryController {
 		Response<Category> response = new Response<Category>();
 
 		Optional<Category> category = categoryService.findById(id);
-		if (category.isEmpty()) {
+		if (!category.isPresent()) {
 			log.info("Erro ao validar o 'Id' para busca da categoria: {}", id);
 			response.addError(Messages.getCategoriaError(GenericMessages.NONEXISTENT.toString()));
 
@@ -113,7 +113,7 @@ public class CategoryController {
 		Response<Category> response = new Response<Category>();
 
 		Optional<Category> category = this.categoryService.findById(id);
-		if (category.isEmpty()) {
+		if (!category.isPresent()) {
 			log.info("Erro ao validar o 'Id' para remoção da categoria: {}", id);
 			response.addError(Messages.getCategoriaError(GenericMessages.NONEXISTENT.toString()));
 

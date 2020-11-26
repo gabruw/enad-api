@@ -56,7 +56,7 @@ public class UserTypeController {
 		Response<UserType> response = new Response<UserType>();
 
 		Optional<UserType> category = userTypeService.findById(id);
-		if (category.isEmpty()) {
+		if (!category.isPresent()) {
 			log.info("Erro ao validar o 'Id' para busca do tipo de usuário: {}", id);
 			response.addError(Messages.getUserTypeError(GenericMessages.NONEXISTENT.toString()));
 
@@ -129,7 +129,7 @@ public class UserTypeController {
 		Response<UserType> response = new Response<UserType>();
 
 		Optional<UserType> userType = this.userTypeService.findById(id);
-		if (userType.isEmpty()) {
+		if (!userType.isPresent()) {
 			log.info("Erro ao validar o 'Id' para remoção do tipo de usuário: {}", id);
 			response.addError(Messages.getUserTypeError(GenericMessages.NONEXISTENT.toString()));
 

@@ -75,7 +75,7 @@ public class AuthenticationController {
 		}
 
 		Optional<Authentication> authetication = this.authenticationService.findByEmail(login.getEmail());
-		if (authetication.isEmpty()) {
+		if (!authetication.isPresent()) {
 			log.info("Autenticação não encontrada para o Email: {}", login.getEmail());
 			response.addError(
 					Messages.getAuthenticationError(AuthenticationMessages.INVALIDEMAIL.toString(), login.getEmail()));
@@ -122,7 +122,7 @@ public class AuthenticationController {
 			token = Optional.of(token.get().substring(7));
 		}
 
-		if (token.isEmpty()) {
+		if (!token.isPresent()) {
 			response.addError(Messages.getAuthenticationError(AuthenticationMessages.WITHOUTTOKEN.toString()));
 		} else if (!jwtTokenUtil.isValidToken(token.get())) {
 			response.addError(Messages.getAuthenticationError(AuthenticationMessages.INVALIDTOKEN.toString()));
