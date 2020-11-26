@@ -2,8 +2,10 @@ package com.uniacademia.enade.api.enumerator;
 
 public enum AuthenticationMessages {
 	NONEXISTENT("nonexistent"),
-	INVALIDPASSWORD("invalid.password"),
-	INVALIDEMAIL("invalid.email");
+	INVALIDEMAIL("invalid.email"),
+	WITHOUTTOKEN("without.token"),
+	INVALIDTOKEN("invalid.token"),
+	INVALIDPASSWORD("invalid.password");
 	
 	private final String text;
 

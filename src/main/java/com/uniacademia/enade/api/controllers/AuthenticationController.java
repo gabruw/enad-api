@@ -3,6 +3,7 @@ package com.uniacademia.enade.api.controllers;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -41,6 +42,9 @@ import lombok.NoArgsConstructor;
 @RequestMapping("/authentication")
 public class AuthenticationController {
 	private static final Logger log = LoggerFactory.getLogger(AuthenticationController.class);
+
+	private static final String BEARER_PREFIX = "Bearer ";
+	private static final String TOKEN_HEADER = "Authorization";
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
@@ -105,6 +109,35 @@ public class AuthenticationController {
 		token.setToken(jwtTokenUtil.createToken(userDetails));
 
 		response.setData(token);
+		return ResponseEntity.ok(response);
+	}
+
+	@PostMapping(value = "/refresh")
+	public ResponseEntity<Response<Token>> gerarRefreshTokenJwt(HttpServletRequest request) {
+		log.info("Gerando refresh token JWT.");
+		Response<Token> response = new Response<Token>();
+		Optional<String> token = Optional.ofNullable(request.getHeader(TOKEN_HEADER));
+
+		if (token.isPresent() && token.get().startsWith(BEARER_PREFIX)) {
+			token = Optional.of(token.get().substring(7));
+		}
+
+		if (token.isEmpty()) {
+			response.addError(Messages.getAuthenticationError(AuthenticationMessages.WITHOUTTOKEN.toString()));
+		} else if (!jwtTokenUtil.isValidToken(token.get())) {
+			response.addError(Messages.getAuthenticationError(AuthenticationMessages.INVALIDTOKEN.toString()));
+		}
+
+		if (!response.getErrors().isEmpty()) {
+			return ResponseEntity.badRequest().body(response);
+		}
+
+		String refreshedToken = jwtTokenUtil.refreshToken(token.get());
+		
+		Token newToken = new Token();
+		newToken.setToken(refreshedToken);
+		
+		response.setData(newToken);
 		return ResponseEntity.ok(response);
 	}
 }
