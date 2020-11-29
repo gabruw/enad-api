@@ -1,7 +1,6 @@
 package com.uniacademia.enade.api.controllers;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -9,6 +8,10 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uniacademia.enade.api.dto.EditCategory;
@@ -38,14 +42,21 @@ import lombok.NoArgsConstructor;
 public class CategoryController {
 	private static final Logger log = LoggerFactory.getLogger(CategoryController.class);
 
+	@Value("${paginacao.size.default}")
+	private int pageSize;
+
 	@Autowired
 	private CategoryService categoryService;
 
 	@GetMapping("/find-all")
-	public ResponseEntity<Response<List<Category>>> findAll() throws NoSuchAlgorithmException {
-		Response<List<Category>> response = new Response<List<Category>>();
+	public ResponseEntity<Response<Page<Category>>> findAll(@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "order", defaultValue = "id") String order,
+			@RequestParam(value = "direction", defaultValue = "DESC") String direction)
+			throws NoSuchAlgorithmException {
+		Response<Page<Category>> response = new Response<Page<Category>>();
 
-		List<Category> categories = categoryService.findAll();
+		PageRequest pageRequest = PageRequest.of(page, this.pageSize, Direction.valueOf(direction), order);
+		Page<Category> categories = categoryService.findAll(pageRequest);
 		response.setData(categories);
 
 		return ResponseEntity.ok(response);

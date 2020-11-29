@@ -2,12 +2,16 @@ package com.uniacademia.enade.api.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.uniacademia.enade.api.dto.Option;
 import com.uniacademia.enade.api.entity.UserType;
 import com.uniacademia.enade.api.repository.UserTypeRepository;
 import com.uniacademia.enade.api.service.UserTypeService;
@@ -21,9 +25,16 @@ public class UserTypeServiceImpl implements UserTypeService {
 	private UserTypeRepository userTypeRepository;
 
 	@Override
-	public List<UserType> findAll() {
-		log.info("Buscando todos os tipos de usuários");
-		return userTypeRepository.findAll();
+	public List<Option> findOptions() {
+		log.info("Buscando todas as opções dos tipos de usuários");
+
+		List<UserType> userTypes = userTypeRepository.findAll();
+		return userTypes.stream().map(userType -> {
+			Option opt = new Option();
+			opt.setValue(userType.getId());
+			opt.setText(userType.getName());
+			return opt;
+		}).collect(Collectors.toList());
 	}
 
 	@Override
@@ -48,5 +59,11 @@ public class UserTypeServiceImpl implements UserTypeService {
 	public Optional<UserType> findByName(String name) {
 		log.info("Buscando um tipo de usuário pelo 'Nome' {}", name);
 		return userTypeRepository.findByName(name);
+	}
+
+	@Override
+	public Page<UserType> findAll(PageRequest pageRequest) {
+		log.info("Buscando todos os tipos de usuário paginados");
+		return userTypeRepository.findAll(pageRequest);
 	}
 }

@@ -1,11 +1,12 @@
 package com.uniacademia.enade.api.service.impl;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.uniacademia.enade.api.entity.Category;
@@ -19,12 +20,6 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
-
-	@Override
-	public List<Category> findAll() {
-		log.info("Buscando todos as categorias");
-		return categoryRepository.findAll();
-	}
 
 	@Override
 	public void deleteById(Long id) {
@@ -42,5 +37,11 @@ public class CategoryServiceImpl implements CategoryService {
 	public Category persistir(Category category) {
 		log.info("Persistindo categoria: {}", category);
 		return this.categoryRepository.save(category);
+	}
+
+	@Override
+	public Page<Category> findAll(PageRequest pageRequest) {
+		log.info("Buscando todos as categorias paginadas");
+		return categoryRepository.findAll(pageRequest);
 	}
 }
