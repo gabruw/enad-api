@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import com.uniacademia.enade.api.entity.Authentication;
 import com.uniacademia.enade.api.entity.User;
-import com.uniacademia.enade.api.entity.UserType;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,16 +17,14 @@ public class IncludeRegister implements Serializable {
 
 	private IncludeUser user;
 	private Login authentication;
-	private EditUserType userType;
 
-	public static User buildIncludeRegister(IncludeUser insertUser, Authentication authentication, UserType userType) {
+	public static User buildIncludeRegister(IncludeUser insertUser, Authentication authentication) {
 		User user = new User();
 		user.setCpf(insertUser.getCpf());
 		user.setName(insertUser.getName());
 		user.setBirth(insertUser.getBirth());
 		user.setPicture(insertUser.getPicture());
 
-		user.setUserType(userType);
 		user.setAuthentication(authentication);
 
 		return user;
@@ -35,7 +32,6 @@ public class IncludeRegister implements Serializable {
 
 	@Override
 	public String toString() {
-		return "IncludeRegister [user=" + user.toString() + ", authentication=" + authentication.toString()
-				+ ", userType=" + userType.toString() + "]";
+		return "IncludeRegister [user=" + user.toString() + ", authentication=" + authentication.toString() + "]";
 	}
 }

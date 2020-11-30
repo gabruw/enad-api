@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import com.uniacademia.enade.api.entity.Authentication;
 import com.uniacademia.enade.api.entity.User;
-import com.uniacademia.enade.api.entity.UserType;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,9 +17,8 @@ public class EditRegister implements Serializable {
 
 	private EditUser user;
 	private Login authentication;
-	private EditUserType userType;
 
-	public static User buildEditRegister(EditUser editUser, Authentication authentication, UserType userType) {
+	public static User buildEditRegister(EditUser editUser, Authentication authentication) {
 		User user = new User();
 		user.setId(editUser.getId());
 		user.setCpf(editUser.getCpf());
@@ -28,7 +26,6 @@ public class EditRegister implements Serializable {
 		user.setBirth(editUser.getBirth());
 		user.setPicture(editUser.getPicture());
 
-		user.setUserType(userType);
 		user.setAuthentication(authentication);
 
 		return user;
@@ -36,7 +33,6 @@ public class EditRegister implements Serializable {
 
 	@Override
 	public String toString() {
-		return "EditRegister [user=" + user.toString() + ", authentication=" + authentication.toString() + ", userType="
-				+ userType.toString() + "]";
+		return "EditRegister [user=" + user.toString() + ", authentication=" + authentication.toString() + "]";
 	}
 }

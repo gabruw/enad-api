@@ -42,6 +42,8 @@ import lombok.NoArgsConstructor;
 public class UserController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
+	private static final String DEFAULT_ROLE = "Funcionario";
+	
 	@Autowired
 	private UserService userService;
 
@@ -64,20 +66,21 @@ public class UserController {
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		Optional<UserType> userType = this.userTypeService.findById(includeRegister.getUserType().getId());
+		Optional<UserType> userType = this.userTypeService.findByName(DEFAULT_ROLE);
 		if (!userType.isPresent()) {
-			log.error("Erro ao validar o Tipo de Usuário: {}", includeRegister.getUserType().toString());
+			log.error("Erro ao validar o Tipo de Usuário");
 			response.addError(Messages.getUserTypeError(GenericMessages.NONEXISTENT.toString()));
 
 			return ResponseEntity.badRequest().body(response);
 		}
 
 		Authentication authentication = Login.buildAuthentication(includeRegister.getAuthentication());
-		User user = IncludeRegister.buildIncludeRegister(includeRegister.getUser(), authentication, userType.get());
+		User user = IncludeRegister.buildIncludeRegister(includeRegister.getUser(), authentication);
+		user.setUserType(userType.get());
 
 		String encodedPassword = new BCryptPasswordEncoder().encode(authentication.getPassword());
 		authentication.setPassword(encodedPassword);
-		
+
 		authentication.setUser(user);
 		authentication = this.authenticationService.persistir(authentication);
 
@@ -98,9 +101,9 @@ public class UserController {
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		Optional<UserType> userType = this.userTypeService.findById(editRegister.getUserType().getId());
+		Optional<UserType> userType = this.userTypeService.findByName(DEFAULT_ROLE);
 		if (!userType.isPresent()) {
-			log.error("Erro ao validar o Tipo de Usuário: {}", editRegister.getUserType().toString());
+			log.error("Erro ao validar o Tipo de Usuário");
 			response.addError(Messages.getUserTypeError(GenericMessages.NONEXISTENT.toString()));
 
 			return ResponseEntity.badRequest().body(response);
@@ -109,7 +112,8 @@ public class UserController {
 		Authentication authentication = Login.buildAuthentication(editRegister.getAuthentication());
 		authentication = this.authenticationService.persistir(authentication);
 
-		User user = EditRegister.buildEditRegister(editRegister.getUser(), authentication, userType.get());
+		User user = EditRegister.buildEditRegister(editRegister.getUser(), authentication);
+		user.setUserType(userType.get());
 		user = this.userService.persistir(user);
 
 		response.setData(user);
