@@ -26,7 +26,9 @@ import com.uniacademia.enade.api.dto.Login;
 import com.uniacademia.enade.api.entity.Authentication;
 import com.uniacademia.enade.api.entity.User;
 import com.uniacademia.enade.api.entity.UserType;
+import com.uniacademia.enade.api.enumerator.AuthenticationMessages;
 import com.uniacademia.enade.api.enumerator.GenericMessages;
+import com.uniacademia.enade.api.enumerator.UserMessages;
 import com.uniacademia.enade.api.response.Response;
 import com.uniacademia.enade.api.service.AuthenticationService;
 import com.uniacademia.enade.api.service.UserService;
@@ -43,7 +45,7 @@ public class UserController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
 	private static final String DEFAULT_ROLE = "Funcionario";
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -62,6 +64,22 @@ public class UserController {
 		if (result.hasErrors()) {
 			log.error("Erro validando dados para cadastro do Usuário: {}", result.getAllErrors());
 			result.getAllErrors().forEach(error -> response.addFieldError(error.getDefaultMessage()));
+
+			return ResponseEntity.badRequest().body(response);
+		}
+
+		Optional<User> checkCpf = this.userService.findByCpf(includeRegister.getUser().getCpf());
+		if (checkCpf.isPresent()) {
+			log.error("Erro ao validar o CPF: {}", checkCpf.get().getCpf());
+			response.addError(Messages.getUserError(UserMessages.ALREADYEXISTSCPF.toString()));
+			return ResponseEntity.badRequest().body(response);
+		}
+
+		Optional<Authentication> checkEmail = this.authenticationService
+				.findByEmail(includeRegister.getAuthentication().getEmail());
+		if (checkCpf.isPresent()) {
+			log.error("Erro ao validar o Email: {}", checkEmail.get().getEmail());
+			response.addError(Messages.getAuthenticationError(AuthenticationMessages.ALREADYEXISTSEMAIL.toString()));
 
 			return ResponseEntity.badRequest().body(response);
 		}

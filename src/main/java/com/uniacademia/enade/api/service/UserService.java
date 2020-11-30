@@ -10,4 +10,6 @@ public interface UserService {
 	User persistir(User user);
 
 	Optional<User> findById(Long id);
+
+	Optional<User> findByCpf(String cpf);
 }

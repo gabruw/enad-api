@@ -19,12 +19,6 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 
 	@Override
-	public Optional<User> findById(Long id) {
-		log.info("Buscando um usuário pelo 'Id' {}", id);
-		return this.userRepository.findById(id);
-	}
-
-	@Override
 	public void deleteById(Long id) {
 		log.info("Removendo um usuário pelo 'Id' {}", id);
 		this.userRepository.deleteById(id);
@@ -34,5 +28,17 @@ public class UserServiceImpl implements UserService {
 	public User persistir(User user) {
 		log.info("Persistindo usuário: {}", user);
 		return this.userRepository.save(user);
+	}
+
+	@Override
+	public Optional<User> findById(Long id) {
+		log.info("Buscando um usuário pelo 'Id' {}", id);
+		return this.userRepository.findById(id);
+	}
+
+	@Override
+	public Optional<User> findByCpf(String cpf) {
+		log.info("Buscando um usuário pelo 'CPF' {}", cpf);
+		return this.userRepository.findByCpf(cpf);
 	}
 }

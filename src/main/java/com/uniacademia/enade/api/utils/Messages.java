@@ -33,10 +33,10 @@ public class Messages {
 	private static ResponseError getErrorMessage(ResourceBundle bundle, final String key, final Object... params) {
 		List<String> keys = convert(key);
 
-		String text = bundle.getString(keys.get(1));
+		String text = bundle.getString(keys.get(0));
 		text = MessageFormat.format(text, params);
 
-		String title = bundle.getString(keys.get(0));
+		String title = bundle.getString(keys.get(1));
 		return ResponseError.convert(title, text);
 	}
 
@@ -44,13 +44,9 @@ public class Messages {
 		String text = key.concat(".text");
 		String title = key.concat(".title");
 
-		List<String> converted = new ArrayList<String>() {
-			private static final long serialVersionUID = 66748189137L;
-			{
-				add(title);
-				add(text);
-			}
-		};
+		List<String> converted = new ArrayList<String>();
+		converted.add(title);
+		converted.add(text);
 
 		return converted;
 	}

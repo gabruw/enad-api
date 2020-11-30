@@ -1,11 +1,11 @@
 package com.uniacademia.enade.api.enumerator;
 
-public enum GenericMessages {
-	NONEXISTENT("nonexistent"), ALREADYEXISTENT("alreadyexistent");
+public enum UserMessages {
+	ALREADYEXISTSCPF("alreadyexists.cpf");
 
 	private final String text;
 
-	GenericMessages(final String text) {
+	UserMessages(final String text) {
 		this.text = text;
 	}
 
