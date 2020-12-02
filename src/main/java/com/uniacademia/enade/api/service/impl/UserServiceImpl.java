@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User persistir(User user) {
-		log.info("Persistindo usuário: {}", user);
+		log.info("Persistindo um usuário: {}", user);
 		return this.userRepository.save(user);
 	}
 

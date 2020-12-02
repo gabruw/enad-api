@@ -23,7 +23,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public void deleteById(Long id) {
-		log.info("Removendo categoria pelo 'Id': {}", id);
+		log.info("Removendo uma categoria pelo 'Id': {}", id);
 		categoryRepository.deleteById(id);
 	}
 
@@ -35,13 +35,13 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public Category persistir(Category category) {
-		log.info("Persistindo categoria: {}", category);
+		log.info("Persistindo uma categoria: {}", category);
 		return this.categoryRepository.save(category);
 	}
 
 	@Override
 	public Page<Category> findAll(PageRequest pageRequest) {
-		log.info("Buscando todos as categorias paginadas");
+		log.info("Buscando todas as categorias paginadas");
 		return categoryRepository.findAll(pageRequest);
 	}
 }

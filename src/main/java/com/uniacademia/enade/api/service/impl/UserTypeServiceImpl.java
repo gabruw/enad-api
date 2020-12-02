@@ -45,13 +45,13 @@ public class UserTypeServiceImpl implements UserTypeService {
 
 	@Override
 	public void deleteById(Long id) {
-		log.info("Removendo tipo de usuário pelo 'Id' {}", id);
+		log.info("Removendo um tipo de usuário pelo 'Id' {}", id);
 		userTypeRepository.deleteById(id);
 	}
 
 	@Override
 	public UserType persistir(UserType userType) {
-		log.info("Persistindo tipo de usuário: {}", userType);
+		log.info("Persistindo um tipo de usuário: {}", userType);
 		return this.userTypeRepository.save(userType);
 	}
 

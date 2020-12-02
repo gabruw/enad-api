@@ -10,6 +10,11 @@ import com.uniacademia.enade.api.response.ResponseError;
 
 public class Messages {
 
+	public static ResponseError getQuestionError(final String key, final Object... params) {
+		ResourceBundle bundle = ResourceBundle.getBundle("QuestionMessages", Locale.getDefault());
+		return getErrorMessage(bundle, key, params);
+	}
+
 	public static ResponseError getCategoriaError(final String key, final Object... params) {
 		ResourceBundle bundle = ResourceBundle.getBundle("CategoryMessages", Locale.getDefault());
 		return getErrorMessage(bundle, key, params);
@@ -50,5 +55,4 @@ public class Messages {
 
 		return converted;
 	}
-
 }

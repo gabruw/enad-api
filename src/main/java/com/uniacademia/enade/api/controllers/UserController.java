@@ -44,7 +44,7 @@ import lombok.NoArgsConstructor;
 public class UserController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
-	private static final String DEFAULT_ROLE = "Funcionario";
+	private static final String DEFAULT_ROLE = "Aluno";
 
 	@Autowired
 	private UserService userService;

@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.uniacademia.enade.api.enumerator.QuestionLevel;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,8 +37,9 @@ public class Question implements Serializable {
 	@Column(name = "description", nullable = false)
 	private String description;
 
+	@Enumerated(EnumType.STRING)
 	@Column(name = "level", nullable = false)
-	private String level;
+	private QuestionLevel level;
 
 	@Column(name = "correct", nullable = false)
 	private char correct;

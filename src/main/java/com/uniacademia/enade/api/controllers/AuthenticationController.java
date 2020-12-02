@@ -112,7 +112,7 @@ public class AuthenticationController {
 		return ResponseEntity.ok(response);
 	}
 
-	@PostMapping(value = "/refresh")
+	@PostMapping("/refresh")
 	public ResponseEntity<Response<Token>> gerarRefreshTokenJwt(HttpServletRequest request) {
 		log.info("Gerando refresh token JWT.");
 		Response<Token> response = new Response<Token>();
@@ -133,10 +133,10 @@ public class AuthenticationController {
 		}
 
 		String refreshedToken = jwtTokenUtil.refreshToken(token.get());
-		
+
 		Token newToken = new Token();
 		newToken.setToken(refreshedToken);
-		
+
 		response.setData(newToken);
 		return ResponseEntity.ok(response);
 	}
