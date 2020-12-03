@@ -65,7 +65,7 @@ public class TestController {
 
 		Optional<Test> question = testService.findById(id);
 		if (!question.isPresent()) {
-			log.info("Erro ao validar o 'Id' para busca das provas: {}", id);
+			log.info("Erro ao validar o 'Id' para busca da prova: {}", id);
 			response.addError(Messages.getTestError(GenericMessages.NONEXISTENT.toString()));
 
 			return ResponseEntity.badRequest().body(response);

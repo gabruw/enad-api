@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
-import javax.validation.constraints.Size;
+import javax.validation.constraints.NotEmpty;
 
 import com.uniacademia.enade.api.entity.Question;
 import com.uniacademia.enade.api.entity.Report;
@@ -22,9 +22,7 @@ import lombok.Setter;
 public class IncludeTest implements Serializable {
 	private static final long serialVersionUID = -2837163525340866355L;
 
-	@Size(min = 1, max = 200, message = "O campo 'Nome' deve conter entre 1 e 200 caracteres.")
-	private String name;
-
+	@NotEmpty(message = "O campo 'Data' é obrigatório.")
 	private Date date;
 
 	private User user;
@@ -37,8 +35,8 @@ public class IncludeTest implements Serializable {
 
 	public static Test buildIncludeTest(IncludeTest includeTest) {
 		Test test = new Test();
-		test.setUser(includeTest.getUser());
 		test.setDate(includeTest.getDate());
+		test.setUser(includeTest.getUser());
 		test.setReport(includeTest.getReport());
 		test.setSubject(includeTest.getSubject());
 		test.setQuestions(includeTest.getQuestions());
@@ -48,7 +46,7 @@ public class IncludeTest implements Serializable {
 
 	@Override
 	public String toString() {
-		return "IncludeTest [name=" + name + ", date=" + date + ", user=" + user + ", report=" + report + ", subject="
-				+ subject + ", questions=" + questions + "]";
+		return "IncludeTest [date=" + date + ", user=" + user + ", report=" + report + ", subject=" + subject
+				+ ", questions=" + questions + "]";
 	}
 }

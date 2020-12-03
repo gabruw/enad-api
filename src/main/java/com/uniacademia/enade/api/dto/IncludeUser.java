@@ -27,6 +27,7 @@ public class IncludeUser implements Serializable {
 	@NotEmpty(message = "O campo 'Data de Nascimento' é obrigatório.")
 	private Date birth;
 
+	@Size(max = 2500, message = "O campo 'Imagem' deve conter no máximo 2500 caracteres.")
 	private String picture;
 
 	@Override

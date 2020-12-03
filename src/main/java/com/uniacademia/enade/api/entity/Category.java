@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ public class Category implements Serializable {
 	private Long id;
 
 	@Column(name = "description", nullable = false)
+	@Size(min = 1, max = 200, message = "O campo 'Descrição' deve conter entre 1 e 200 caracteres.")
 	private String description;
 
 	@ManyToOne(fetch = FetchType.EAGER)

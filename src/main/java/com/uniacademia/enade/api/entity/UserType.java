@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,7 @@ public class UserType implements Serializable {
 	private Long id;
 
 	@Column(name = "name", unique = true, nullable = false)
+	@Size(min = 1, max = 200, message = "O campo 'Nome' deve conter entre 1 e 200 caracteres.")
 	private String name;
 
 	@OneToMany(mappedBy = "userType", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

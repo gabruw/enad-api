@@ -11,11 +11,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,6 +33,7 @@ public class Test implements Serializable {
 	private Long id;
 
 	@Column(name = "date", nullable = false)
+	@NotEmpty(message = "O campo 'Data' é obrigatório.")
 	private Date date;
 
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -46,7 +46,6 @@ public class Test implements Serializable {
 	private Subject subject;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "test_questions", joinColumns = @JoinColumn(name = "idTest"), inverseJoinColumns = @JoinColumn(name = "idQuestion"))
 	private List<Question> questions;
 
 	@Override

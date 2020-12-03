@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,7 @@ public class Report implements Serializable {
 	private Long id;
 
 	@Column(name = "value", nullable = true)
+	@NotNull(message = "O campo 'Valor' não pode ser nulo.")
 	private Double value;
 
 	@ManyToOne(fetch = FetchType.EAGER)

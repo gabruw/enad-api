@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,9 +30,11 @@ public class Authentication implements Serializable {
 	private Long id;
 
 	@Column(name = "email", unique = true, nullable = false)
+	@Size(min = 6, max = 80, message = "O campo 'Email' deve conter entre 6 e 40 caracteres.")
 	private String email;
 
 	@Column(name = "password", nullable = false)
+	@Size(min = 6, max = 40, message = "O campo 'Nome' deve conter entre 6 e 40 caracteres.")
 	private String password;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

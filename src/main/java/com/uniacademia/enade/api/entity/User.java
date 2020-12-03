@@ -15,6 +15,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.br.CPF;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,15 +37,19 @@ public class User implements Serializable {
 	private Long id;
 
 	@Column(name = "name", nullable = false)
+	@Size(min = 1, max = 200, message = "O campo 'Nome' deve conter entre 1 e 200 caracteres.")
 	private String name;
 
+	@CPF(message = "O campo 'CPF' é inválido.")
 	@Column(name = "cpf", unique = true, nullable = false)
 	private String cpf;
 
 	@Column(name = "birth", nullable = false)
+	@NotEmpty(message = "O campo 'Data de Nascimento' é obrigatório.")
 	private Date birth;
 
 	@Column(name = "picture", nullable = true)
+	@Size(max = 2500, message = "O campo 'Imagem' deve conter no máximo 2500 caracteres.")
 	private String picture;
 
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -51,11 +59,15 @@ public class User implements Serializable {
 	private Authentication authentication;
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Test> tests;
+
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Subject> subjects;
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", cpf=" + cpf + ", birth=" + birth + ", picture=" + picture
-				+ ", userType=" + userType + ", authentication=" + authentication + ", subjects=" + subjects + "]";
+				+ ", userType=" + userType + ", tests=" + tests + ", authentication=" + authentication + ", subjects="
+				+ subjects + "]";
 	}
 }
