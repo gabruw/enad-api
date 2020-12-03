@@ -17,7 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,7 +38,6 @@ import lombok.NoArgsConstructor;
 
 @RestController
 @NoArgsConstructor
-@CrossOrigin(origins = "*")
 @RequestMapping("/authentication")
 public class AuthenticationController {
 	private static final Logger log = LoggerFactory.getLogger(AuthenticationController.class);
@@ -112,7 +111,7 @@ public class AuthenticationController {
 		return ResponseEntity.ok(response);
 	}
 
-	@PostMapping("/refresh")
+	@GetMapping("/refresh")
 	public ResponseEntity<Response<Token>> gerarRefreshTokenJwt(HttpServletRequest request) {
 		log.info("Gerando refresh token JWT.");
 		Response<Token> response = new Response<Token>();

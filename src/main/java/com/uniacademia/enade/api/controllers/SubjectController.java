@@ -24,113 +24,113 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.uniacademia.enade.api.dto.EditCategory;
-import com.uniacademia.enade.api.dto.IncludeCategory;
-import com.uniacademia.enade.api.entity.Category;
+import com.uniacademia.enade.api.dto.EditSubject;
+import com.uniacademia.enade.api.dto.IncludeSubject;
+import com.uniacademia.enade.api.entity.Subject;
 import com.uniacademia.enade.api.enumerator.GenericMessages;
 import com.uniacademia.enade.api.response.Response;
-import com.uniacademia.enade.api.service.CategoryService;
+import com.uniacademia.enade.api.service.SubjectService;
 import com.uniacademia.enade.api.utils.Messages;
 
 import lombok.NoArgsConstructor;
 
 @RestController
 @NoArgsConstructor
-@RequestMapping("/category")
-public class CategoryController {
-	private static final Logger log = LoggerFactory.getLogger(CategoryController.class);
+@RequestMapping("/subject")
+public class SubjectController {
+	private static final Logger log = LoggerFactory.getLogger(SubjectController.class);
 
 	@Value("${paginacao.size.default}")
 	private int pageSize;
 
 	@Autowired
-	private CategoryService categoryService;
+	private SubjectService subjectService;
 
 	@GetMapping("/find-all")
-	public ResponseEntity<Response<Page<Category>>> findAll(@RequestParam(value = "page", defaultValue = "0") int page,
+	public ResponseEntity<Response<Page<Subject>>> findAll(@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "order", defaultValue = "id") String order,
 			@RequestParam(value = "direction", defaultValue = "DESC") String direction)
 			throws NoSuchAlgorithmException {
-		Response<Page<Category>> response = new Response<Page<Category>>();
+		Response<Page<Subject>> response = new Response<Page<Subject>>();
 
 		PageRequest pageRequest = PageRequest.of(page, this.pageSize, Direction.valueOf(direction), order);
-		Page<Category> categories = categoryService.findAll(pageRequest);
-		response.setData(categories);
+		Page<Subject> subjects = subjectService.findAll(pageRequest);
+		response.setData(subjects);
 
 		return ResponseEntity.ok(response);
 	}
 
 	@GetMapping("/find/{id}")
-	public ResponseEntity<Response<Category>> find(@PathVariable("id") Long id) throws NoSuchAlgorithmException {
-		Response<Category> response = new Response<Category>();
+	public ResponseEntity<Response<Subject>> find(@PathVariable("id") Long id) throws NoSuchAlgorithmException {
+		Response<Subject> response = new Response<Subject>();
 
-		Optional<Category> category = categoryService.findById(id);
-		if (!category.isPresent()) {
-			log.info("Erro ao validar o 'Id' para busca da categoria: {}", id);
+		Optional<Subject> subject = subjectService.findById(id);
+		if (!subject.isPresent()) {
+			log.info("Erro ao validar o 'Id' para busca do assunto: {}", id);
 			response.addError(Messages.getCategoriaError(GenericMessages.NONEXISTENT.toString()));
 
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		response.setData(category.get());
+		response.setData(subject.get());
 		return ResponseEntity.ok(response);
 	}
 
 	@PostMapping("/include")
-	public ResponseEntity<Response<Category>> include(@Valid @RequestBody IncludeCategory includeCategory,
+	public ResponseEntity<Response<Subject>> include(@Valid @RequestBody IncludeSubject includeSubject,
 			BindingResult result) throws NoSuchAlgorithmException {
-		log.info("Iniciando cadastro da categoria: {}", includeCategory.toString());
-		Response<Category> response = new Response<Category>();
+		log.info("Iniciando cadastro do assunto: {}", includeSubject.toString());
+		Response<Subject> response = new Response<Subject>();
 
 		if (result.hasErrors()) {
-			log.error("Erro validando dados de cadastro de categoria: {}", result.getAllErrors());
+			log.error("Erro validando dados de cadastro do assunto: {}", result.getAllErrors());
 			result.getAllErrors().forEach(error -> response.addFieldError(error.getDefaultMessage()));
 
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		Category category = IncludeCategory.buildIncludeCategory(includeCategory);
-		category = this.categoryService.persistir(category);
+		Subject subject = IncludeSubject.buildIncludeSubject(includeSubject);
+		subject = this.subjectService.persistir(subject);
 
-		response.setData(category);
+		response.setData(subject);
 		return ResponseEntity.ok(response);
 	}
 
 	@PatchMapping("/edit")
-	public ResponseEntity<Response<Category>> edit(@Valid @RequestBody EditCategory editCategory, BindingResult result)
+	public ResponseEntity<Response<Subject>> edit(@Valid @RequestBody EditSubject editSubject, BindingResult result)
 			throws NoSuchAlgorithmException {
-		log.info("Iniciando edição da categoria: {}", editCategory.toString());
-		Response<Category> response = new Response<Category>();
+		log.info("Iniciando edição da categoria: {}", editSubject.toString());
+		Response<Subject> response = new Response<Subject>();
 
 		if (result.hasErrors()) {
-			log.error("Erro validando dados para edição de categoria: {}", result.getAllErrors());
+			log.error("Erro validando dados para edição do assunto: {}", result.getAllErrors());
 			result.getAllErrors().forEach(error -> response.addFieldError(error.getDefaultMessage()));
 
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		Category category = EditCategory.buildEditCategory(editCategory);
-		category = this.categoryService.persistir(category);
+		Subject subject = EditSubject.buildEditSubject(editSubject);
+		subject = this.subjectService.persistir(subject);
 
-		response.setData(category);
+		response.setData(subject);
 		return ResponseEntity.ok(response);
 	}
 
 	@DeleteMapping("/remove/{id}")
-	public ResponseEntity<Response<Category>> remove(@PathVariable("id") Long id) throws NoSuchAlgorithmException {
+	public ResponseEntity<Response<Subject>> remove(@PathVariable("id") Long id) throws NoSuchAlgorithmException {
 		log.info("Iniciando remoção da categoria: {}", id);
-		Response<Category> response = new Response<Category>();
+		Response<Subject> response = new Response<Subject>();
 
-		Optional<Category> category = this.categoryService.findById(id);
-		if (!category.isPresent()) {
-			log.info("Erro ao validar o 'Id' para remoção da categoria: {}", id);
+		Optional<Subject> subject = this.subjectService.findById(id);
+		if (!subject.isPresent()) {
+			log.info("Erro ao validar o 'Id' para remoção do assunto: {}", id);
 			response.addError(Messages.getCategoriaError(GenericMessages.NONEXISTENT.toString()));
 
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		this.categoryService.deleteById(id);
-		response.setData(category.get());
+		this.subjectService.deleteById(id);
+		response.setData(subject.get());
 
 		return ResponseEntity.ok(response);
 	}

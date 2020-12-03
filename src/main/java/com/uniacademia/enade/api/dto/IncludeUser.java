@@ -3,7 +3,7 @@ package com.uniacademia.enade.api.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.br.CPF;
@@ -24,7 +24,7 @@ public class IncludeUser implements Serializable {
 	@CPF(message = "O campo 'CPF' é inválido.")
 	private String cpf;
 
-	@NotEmpty(message = "O campo 'Data de Nascimento' é obrigatório.")
+	@NotNull(message = "O campo 'Data de Nascimento' é obrigatório.")
 	private Date birth;
 
 	@Size(max = 2500, message = "O campo 'Imagem' deve conter no máximo 2500 caracteres.")

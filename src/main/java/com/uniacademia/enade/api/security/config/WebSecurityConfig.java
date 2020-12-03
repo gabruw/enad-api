@@ -14,6 +14,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import com.uniacademia.enade.api.security.JwtAuthenticationEntryPoint;
 import com.uniacademia.enade.api.security.filter.JwtAuthenticationTokenFilter;
@@ -52,15 +55,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
+		httpSecurity.cors();
 		httpSecurity.csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-				.antMatchers("/auth/**", "/v2/api-docs", "/swagger-resources/**", "/configuration/security",
-						"/swagger-ui.html", "/swagger-ui/", "/swagger-ui/index.html", "/category/**", "/webjars/**",
-						"/authentication/**", "/user/**", "/test/**", "/category/**", "/question/**", "/user-type/**")
+				.antMatchers("/swagger-resources/**", "/configuration/security", "/swagger-ui.html", "/webjars/**",
+						"/authentication/login")
 				.permitAll().anyRequest().authenticated();
 
 		httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
 		httpSecurity.headers().cacheControl();
 	}
 
+	@Bean
+	public CorsFilter corsFilter() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowCredentials(true);
+		config.addAllowedOrigin("*");
+		config.addAllowedHeader("*");
+		config.addAllowedMethod("OPTIONS");
+		config.addAllowedMethod("GET");
+		config.addAllowedMethod("POST");
+		config.addAllowedMethod("PUT");
+		config.addAllowedMethod("DELETE");
+		source.registerCorsConfiguration("/**", config);
+
+		return new CorsFilter(source);
+	}
 }

@@ -10,7 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -35,14 +34,11 @@ public class Subject implements Serializable {
 	@Size(min = 1, max = 200, message = "O campo 'Nome' deve conter entre 1 e 200 caracteres.")
 	private String name;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	private User user;
-
 	@OneToMany(mappedBy = "subject", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Test> tests;
 
 	@Override
 	public String toString() {
-		return "Subject [id=" + id + ", name=" + name + ", user=" + user + ", tests=" + tests + "]";
+		return "Subject [id=" + id + ", name=" + name + ", tests=" + tests + "]";
 	}
 }

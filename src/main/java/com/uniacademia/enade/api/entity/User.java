@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.br.CPF;
@@ -45,7 +45,7 @@ public class User implements Serializable {
 	private String cpf;
 
 	@Column(name = "birth", nullable = false)
-	@NotEmpty(message = "O campo 'Data de Nascimento' é obrigatório.")
+	@NotNull(message = "O campo 'Data de Nascimento' é obrigatório.")
 	private Date birth;
 
 	@Column(name = "picture", nullable = true)
@@ -61,13 +61,9 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Test> tests;
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Subject> subjects;
-
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", cpf=" + cpf + ", birth=" + birth + ", picture=" + picture
-				+ ", userType=" + userType + ", tests=" + tests + ", authentication=" + authentication + ", subjects="
-				+ subjects + "]";
+				+ ", userType=" + userType + ", tests=" + tests + ", authentication=" + authentication + "]";
 	}
 }

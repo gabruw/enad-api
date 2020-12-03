@@ -34,7 +34,7 @@ public class Authentication implements Serializable {
 	private String email;
 
 	@Column(name = "password", nullable = false)
-	@Size(min = 6, max = 40, message = "O campo 'Nome' deve conter entre 6 e 40 caracteres.")
+	@Size(min = 6, message = "O campo 'Senha' deve conter no mínimo 6 caracteres.")
 	private String password;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,7 +39,6 @@ import lombok.NoArgsConstructor;
 @RestController
 @NoArgsConstructor
 @RequestMapping("/user")
-@CrossOrigin(origins = "*")
 public class UserController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
