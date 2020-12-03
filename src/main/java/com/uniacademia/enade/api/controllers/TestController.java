@@ -35,7 +35,7 @@ import lombok.NoArgsConstructor;
 @RestController
 @NoArgsConstructor
 @CrossOrigin(origins = "*")
-@RequestMapping("/question")
+@RequestMapping("/test")
 public class TestController {
 	private static final Logger log = LoggerFactory.getLogger(TestController.class);
 
