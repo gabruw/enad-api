@@ -10,6 +10,11 @@ import com.uniacademia.enade.api.response.ResponseError;
 
 public class Messages {
 
+	public static ResponseError getTestError(final String key, final Object... params) {
+		ResourceBundle bundle = ResourceBundle.getBundle("TestMessages", Locale.getDefault());
+		return getErrorMessage(bundle, key, params);
+	}
+
 	public static ResponseError getQuestionError(final String key, final Object... params) {
 		ResourceBundle bundle = ResourceBundle.getBundle("QuestionMessages", Locale.getDefault());
 		return getErrorMessage(bundle, key, params);

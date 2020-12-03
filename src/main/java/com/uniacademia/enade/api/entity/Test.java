@@ -33,7 +33,7 @@ public class Test implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "description", nullable = false)
+	@Column(name = "date", nullable = false)
 	private Date date;
 
 	@ManyToOne(fetch = FetchType.EAGER)
