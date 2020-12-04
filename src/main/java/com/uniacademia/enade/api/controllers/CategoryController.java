@@ -1,6 +1,7 @@
 package com.uniacademia.enade.api.controllers;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.uniacademia.enade.api.dto.EditCategory;
 import com.uniacademia.enade.api.dto.IncludeCategory;
+import com.uniacademia.enade.api.dto.Option;
 import com.uniacademia.enade.api.entity.Category;
 import com.uniacademia.enade.api.enumerator.GenericMessages;
 import com.uniacademia.enade.api.response.Response;
@@ -46,6 +48,16 @@ public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
 
+	@GetMapping("/find-options")
+	public ResponseEntity<Response<List<Option>>> findOptions() throws NoSuchAlgorithmException {
+		Response<List<Option>> response = new Response<List<Option>>();
+
+		List<Option> categories = categoryService.findOptions();
+		response.setData(categories);
+
+		return ResponseEntity.ok(response);
+	}
+	
 	@GetMapping("/find-all")
 	public ResponseEntity<Response<Page<Category>>> findAll(@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "order", defaultValue = "id") String order,

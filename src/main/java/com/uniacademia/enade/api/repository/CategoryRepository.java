@@ -1,5 +1,6 @@
 package com.uniacademia.enade.api.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -15,8 +16,11 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 	void deleteById(Long id);
 
 	@Transactional(readOnly = true)
+	List<Category> findAll();
+
+	@Transactional(readOnly = true)
 	Optional<Category> findById(Long id);
-	
+
 	@Transactional(readOnly = true)
 	Page<Category> findAll(Pageable pageable);
 }
